@@ -15,7 +15,7 @@
             android:layout_weight="1"
             android:text="@string/dlg_view_001_name1"
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/teamMemberName1"
@@ -37,7 +37,7 @@
             android:layout_weight="1"
             android:text="@string/dlg_view_001_name2"
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/teamMemberName2"
@@ -59,7 +59,7 @@
             android:layout_weight="1"
             android:text="@string/dlg_view_001_sex"
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <ToggleButton
             android:id="@+id/teamMemberSex"
@@ -83,7 +83,7 @@
             android:layout_weight="1"
             android:text="@string/dlg_view_001_birthday"
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/teamMemberBirthday"

@@ -16,18 +16,22 @@ public class TeamMemberDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Activity activity = getActivity();
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         final View dialogView = LayoutInflater.from(activity).inflate(R.layout.team_member_dialog, null);
-        builder.setView(dialogView)
+
+        return new AlertDialog.Builder(activity)
+            .setView(dialogView)
             .setTitle(R.string.opt_menu_team_member_append)
             .setPositiveButton(R.string.DLG_ENTRY
                 , new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
+                        addMember(dialogView);
                     }
-                });
+                })
+            .create();
+    }
 
-        return builder.create();
+    private void addMember(View dialogView) {
+
     }
 }
