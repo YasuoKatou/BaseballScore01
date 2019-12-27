@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/optMenuOthers">
+        <item
+            android:id="@+id/action_settings"
+            android:orderInCategory="100"
+            android:title="@string/action_settings"
+            app:showAsAction="never" />
+    </group>
+    <group android:id="@+id/optMenuTeamMember" >
+        <item
+            android:id="@+id/teamMemberAppend"
+            android:title="@string/opt_menu_team_member_append"
+            app:showAsAction="never" />
+        <item
+            android:checkable="true"
+            android:title="@string/opt_menu_team_add_ob"
+            app:showAsAction="never" />
+    </group>
+</menu>
