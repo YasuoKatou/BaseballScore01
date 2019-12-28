@@ -1,5 +1,6 @@
 package jp.yksolution.android.app.baseballscore01;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +30,7 @@ import android.view.Menu;
 import java.util.List;
 
 import jp.yksolution.android.app.baseballscore01.ui.common.PopupMenuOperation;
+import jp.yksolution.android.app.baseballscore01.db.DbHelper;
 import jp.yksolution.android.app.baseballscore01.ui.member.MemberFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -64,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        // DBの作成／更新を行う
+        DbHelper dbHelper = new DbHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.close();
     }
 
     @Override

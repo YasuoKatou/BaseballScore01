@@ -34,9 +34,9 @@ public class MemberFragment extends Fragment implements PopupMenuOperation {
 
         this.listView = (ListView) root.findViewById(R.id.teamMemberList);
         adapter = new MemberListAdapter(this.getContext());
-        memberViewModel.getTeamMembers().observe(this, new Observer<List<TeamMemberEntity>>() {
+        memberViewModel.getTeamMembers().observe(this, new Observer<List<TeamMemberDto>>() {
             @Override
-            public void onChanged(@Nullable List<TeamMemberEntity> list) {
+            public void onChanged(@Nullable List<TeamMemberDto> list) {
                 adapter.setTeamMemberList(list);
                 listView.setAdapter(adapter);
             }
