@@ -20,15 +20,8 @@ public class MemberViewModel extends ViewModel {
     private void loadTeamMembers() {
         List<TeamMemberDto> memberList = new ArrayList<>();
 
-        TeamMemberDto entity = new TeamMemberDto();
-        entity.setMemberId(1L);
-        entity.setName("加藤 康夫");
-        memberList.add(entity);
-
-        entity = new TeamMemberDto();
-        entity.setMemberId(2L);
-        entity.setName("イチロー");
-        memberList.add(entity);
+        memberList.add(TeamMemberDto.builder().name("加藤 康夫").build());
+        memberList.add(TeamMemberDto.builder().name("イチロー").build());
 
         this.mTeamMembers.setValue(memberList);
     }

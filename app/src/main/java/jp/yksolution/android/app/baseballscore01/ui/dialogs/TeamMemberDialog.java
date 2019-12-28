@@ -14,9 +14,14 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import jp.yksolution.android.app.baseballscore01.R;
 import jp.yksolution.android.app.baseballscore01.ui.common.Const;
+import jp.yksolution.android.app.baseballscore01.ui.member.TeamMemberDto;
 
 public class TeamMemberDialog extends DialogFragment {
     private static final String TAG = TeamMemberDialog.class.getSimpleName();
@@ -40,19 +45,21 @@ public class TeamMemberDialog extends DialogFragment {
     }
 
     public interface NoticeDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogPositiveClick(TeamMemberDto teamMemberDto);
     }
-
     private NoticeDialogListener mNoticeDialogListener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            mNoticeDialogListener = (NoticeDialogListener) context;
-        } catch (ClassCastException ex) {
-            throw new ClassCastException(TAG + " must implement NoticeDialogListener");
+        Fragment host = this.getFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        for (Fragment fragment : host.getChildFragmentManager().getFragments()) {
+            if (fragment instanceof NoticeDialogListener) {
+                mNoticeDialogListener = (NoticeDialogListener) fragment;
+                return;
+            }
         }
+        throw new ClassCastException(TAG + " must implement NoticeDialogListener");
     }
 
     /**
@@ -63,11 +70,26 @@ public class TeamMemberDialog extends DialogFragment {
         String name1 = ((TextView)dialogView.findViewById(R.id.teamMemberName1)).getText().toString();
         String name2 = ((TextView)dialogView.findViewById(R.id.teamMemberName2)).getText().toString();
         int sex = (((ToggleButton)dialogView.findViewById(R.id.teamMemberSex)).isChecked()) ? Const.SEX.BOY : Const.SEX.GIRL;
-        String birthday = ((EditText)dialogView.findViewById(R.id.teamMemberBirthday)).getText().toString();
-        Log.d(TAG, "name1    : " + name1);
-        Log.d(TAG, "name2    : " + name2);
-        Log.d(TAG, "sex      : " + sex);
-        Log.d(TAG, "birthday : " + birthday);
+        String strBirthday = ((EditText)dialogView.findViewById(R.id.teamMemberBirthday)).getText().toString();
+//        Log.d(TAG, "name1    : " + name1);
+//        Log.d(TAG, "name2    : " + name2);
+//        Log.d(TAG, "sex      : " + sex);
+//        Log.d(TAG, "birthday : " + strBirthday);
+        Date birthDay;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/d");
+            birthDay = sdf.parse(strBirthday);
+        } catch (Exception ex) {
+            birthDay = null;
+            Log.e(TAG, "日付エラー : " + strBirthday);
+        }
+        mNoticeDialogListener.onDialogPositiveClick(
+            TeamMemberDto.builder()
+                .name1(name1)
+                .name2(name2)
+                .sex(sex)
+                .birthday(birthDay)
+                .build());
     }
 
     /**

@@ -1,6 +1,7 @@
 package jp.yksolution.android.app.baseballscore01.ui.member;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +21,9 @@ import jp.yksolution.android.app.baseballscore01.R;
 import jp.yksolution.android.app.baseballscore01.ui.common.PopupMenuOperation;
 import jp.yksolution.android.app.baseballscore01.ui.dialogs.TeamMemberDialog;
 
-public class MemberFragment extends Fragment implements PopupMenuOperation {
+public class MemberFragment extends Fragment
+    implements PopupMenuOperation, TeamMemberDialog.NoticeDialogListener {
+    private static final String TAG = MemberFragment.class.getSimpleName();
 
     private MemberViewModel memberViewModel;
     private ListView listView;
@@ -71,5 +74,14 @@ public class MemberFragment extends Fragment implements PopupMenuOperation {
     private void addTeamMember() {
         TeamMemberDialog dlg = new TeamMemberDialog();
         dlg.show(getActivity().getSupportFragmentManager(), dlg.getTag());
+    }
+
+    /**
+     * for TeamMemberDialog.NoticeDialogListener
+     * @param teamMemberDto
+     */
+    @Override
+    public void onDialogPositiveClick(TeamMemberDto teamMemberDto) {
+        Log.d(TAG, teamMemberDto.toString());
     }
 }
