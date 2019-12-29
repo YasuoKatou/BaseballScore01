@@ -88,7 +88,7 @@ public class TeamMemberDialog extends DialogFragment {
                 .name1(name1)
                 .name2(name2)
                 .sex(sex)
-                .birthday(birthDay)
+                .birthday((birthDay == null) ? null : birthDay.getTime())
                 .build());
     }
 

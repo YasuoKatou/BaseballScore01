@@ -1,7 +1,6 @@
 package jp.yksolution.android.app.baseballscore01.db.entity;
 
-import java.util.Date;
-
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +9,7 @@ import lombok.Setter;
  * @author Y.Katou (YKSolution)
  * @since 2019/12/28
  */
+@Builder
 @Getter
 @Setter
 public class TeamMemberEntity extends EntityBase {
@@ -22,5 +22,5 @@ public class TeamMemberEntity extends EntityBase {
     /** 性別. */
     private int sex;
     /** 誕生日. */
-    private Date birthday;
+    private long birthday;
 }

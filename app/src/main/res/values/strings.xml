@@ -27,4 +27,10 @@
     <string name="dlg_view_001_name2">選手名（名）</string>
     <string name="dlg_view_001_sex">性別</string>
     <string name="dlg_view_001_birthday">誕生日</string>
+
+    <!-- メッセージ -->
+    <string name="MSG_INP_ERR_001">入力にエラーがあります</string>
+    <string name="MSG_DB_INS_OK">登録しました.</string>
+    <string name="MSG_DB_INS_NG">登録に失敗しました.</string>
+
 </resources>
