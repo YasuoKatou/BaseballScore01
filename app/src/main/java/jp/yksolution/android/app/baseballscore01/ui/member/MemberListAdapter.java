@@ -49,7 +49,9 @@ public class MemberListAdapter extends BaseAdapter {
         convertView = this.mLayoutInflater.inflate(R.layout.team_member_list_row,parent,false);
 
         TeamMemberDto entity = (TeamMemberDto)this.getItem(index);
+        ((TextView)convertView.findViewById(R.id.memberId)).setText(Long.toString(entity.getMemberId()));
         ((TextView)convertView.findViewById(R.id.memberName)).setText(entity.getName());
+        ((TextView)convertView.findViewById(R.id.memberAge)).setText(Integer.toString(entity.getAge()));
 
         return convertView;
     }

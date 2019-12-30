@@ -1,6 +1,10 @@
 package jp.yksolution.android.app.baseballscore01.ui.member;
 
+import android.text.format.DateFormat;
+
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Calendar;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -36,7 +40,11 @@ public class TeamMemberDto {
     private Long birthday;
 
     /** 年齢. */
-    private int age;
+    public int getAge() {
+        String now = DateFormat.format("yyyyMMdd", Calendar.getInstance()).toString();
+        String b   = DateFormat.format("yyyyMMdd", this.birthday).toString();
+        return (Integer.parseInt(now) - Integer.parseInt(b)) / 10000;
+    }
 
     /** メンバー姓名. */
     public String getName() {
