@@ -76,6 +76,9 @@ public class MemberFragment extends Fragment
         }
     }
 
+    /**
+     * 選手登録するダイアログを開く
+     */
     private void addTeamMember() {
         TeamMemberDialog dlg = new TeamMemberDialog();
         dlg.show(getActivity().getSupportFragmentManager(), dlg.getTag());
@@ -103,9 +106,11 @@ public class MemberFragment extends Fragment
             // 登録結果を確認
             String message;
             if (count == 1) {
+                // 登録後の一覧を更新するため再読み込み
+                this.memberViewModel.refreshTeamMembers();
                 message = getResources().getString(R.string.MSG_DB_INS_OK);
             } else {
-                message = getResources().getString(R.string.MSG_DB_INS_OK);
+                message = getResources().getString(R.string.MSG_DB_INS_NG);
             }
             Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
         } else {

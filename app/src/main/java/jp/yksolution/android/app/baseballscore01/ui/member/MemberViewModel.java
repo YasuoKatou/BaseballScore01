@@ -25,6 +25,10 @@ public class MemberViewModel extends ViewModel {
         return this.mTeamMembers;
     }
 
+    public void refreshTeamMembers() {
+        this.loadTeamMembers();
+    }
+
     private void loadTeamMembers() {
         List<TeamMemberDto> memberList = new ArrayList<>();
         TeamMemberDao dao = new TeamMemberDao(this.mFragment);

@@ -12,12 +12,10 @@ import java.util.List;
 import jp.yksolution.android.app.baseballscore01.R;
 
 public class MemberListAdapter extends BaseAdapter {
-    private Context mContext;
     private LayoutInflater mLayoutInflater = null;
     private List<TeamMemberDto> mTeamMemberList = null;
 
     public MemberListAdapter(Context context) {
-        this.mContext = context;
         this.mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
