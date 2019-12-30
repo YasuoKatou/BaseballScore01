@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -71,10 +72,11 @@ public class TeamMemberDialog extends DialogFragment {
         String name2 = ((TextView)dialogView.findViewById(R.id.teamMemberName2)).getText().toString();
         int sex = (((ToggleButton)dialogView.findViewById(R.id.teamMemberSex)).isChecked()) ? Const.SEX.BOY : Const.SEX.GIRL;
         String strBirthday = ((EditText)dialogView.findViewById(R.id.teamMemberBirthday)).getText().toString();
-//        Log.d(TAG, "name1    : " + name1);
-//        Log.d(TAG, "name2    : " + name2);
-//        Log.d(TAG, "sex      : " + sex);
-//        Log.d(TAG, "birthday : " + strBirthday);
+
+        String positionCategory = (String)((Spinner)dialogView.findViewById(R.id.position_category)).getSelectedItem();
+        String piching = (String)((Spinner)dialogView.findViewById(R.id.pitching)).getSelectedItem();
+        String batting = (String)((Spinner)dialogView.findViewById(R.id.batting)).getSelectedItem();
+
         Date birthDay;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/d");
@@ -89,6 +91,9 @@ public class TeamMemberDialog extends DialogFragment {
                 .name2(name2)
                 .sex(sex)
                 .birthday((birthDay == null) ? null : birthDay.getTime())
+                .positionCategory(Const.getPositionCategoryCodeByString(positionCategory))
+                .pitching(Const.getPichingCodeByString(piching))
+                .batting(Const.getBattingCodeByString(batting))
                 .build());
     }
 

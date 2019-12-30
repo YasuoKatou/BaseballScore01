@@ -15,29 +15,28 @@ import lombok.ToString;
 @ToString
 public class TeamMemberDto {
     /** メンバーID. */
-    @Getter
-    @Setter
-    private long memberId;
+    @Getter @Setter private long memberId;
 
     /** メンバー姓名（姓）. */
-    @Getter
-    @Setter
-    private String name1;
+    @Getter @Setter private String name1;
 
     /** メンバー姓名（名）. */
-    @Getter
-    @Setter
-    private String name2;
+    @Getter @Setter private String name2;
 
     /** 性別ID. */
-    @Getter
-    @Setter
-    private int sex;
+    @Getter @Setter private int sex;
 
     /** 生年月日. */
-    @Getter
-    @Setter
-    private Long birthday;
+    @Getter @Setter private Long birthday;
+
+    /** ポジション. */
+    @Getter @Setter private Integer positionCategory;
+
+    /** 右投げ／左投げ. */
+    @Getter @Setter private Integer pitching;
+
+    /** 右打ち／左打ち. */
+    @Getter @Setter private Integer batting;
 
     /** 年齢. */
     public int getAge() {

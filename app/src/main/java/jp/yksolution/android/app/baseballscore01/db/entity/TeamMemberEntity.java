@@ -23,4 +23,10 @@ public class TeamMemberEntity extends EntityBase {
     private int sex;
     /** 誕生日. */
     private long birthday;
+    /** ポジション. */
+    private Integer positionCategory;
+    /** 右投げ／左投げ. */
+    private Integer pitching;
+    /** 右打ち／左打ち. */
+    private Integer batting;
 }

@@ -95,11 +95,14 @@ public class MemberFragment extends Fragment
         if (this.isValid(teamMemberDto)) {
             // ＤＢ登録エンティティを編集
             TeamMemberEntity entity = TeamMemberEntity.builder()
-                    .name1(teamMemberDto.getName1())
-                    .name2(teamMemberDto.getName2())
-                    .sex(teamMemberDto.getSex())
-                    .birthday(teamMemberDto.getBirthday().longValue())
-                    .build();
+                .name1(teamMemberDto.getName1())
+                .name2(teamMemberDto.getName2())
+                .sex(teamMemberDto.getSex())
+                .birthday(teamMemberDto.getBirthday().longValue())
+                .positionCategory(teamMemberDto.getPositionCategory())
+                .pitching(teamMemberDto.getPitching())
+                .batting(teamMemberDto.getBatting())
+                .build();
             // ＤＢに登録
             TeamMemberDao dao = new TeamMemberDao(this);
             int count = dao.addTeamMember(entity);

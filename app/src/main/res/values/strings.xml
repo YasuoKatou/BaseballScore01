@@ -22,11 +22,33 @@
     <string name="SEX_BOY">男子</string>
     <string name="SEX_GIRL">女子</string>
 
+    <string-array name="pitching_type_list">
+        <item>右</item>
+        <item>左</item>
+        <item>左右</item>
+    </string-array>
+
+    <string-array name="batting_type_list">
+        <item>右</item>
+        <item>左</item>
+        <item>左右</item>
+    </string-array>
+
+    <string-array name="position_category_list">
+        <item>外野</item>
+        <item>内野</item>
+        <item>投手</item>
+        <item>捕手</item>
+    </string-array>
+
     <!-- 選手登録ダイアログ -->
     <string name="dlg_view_001_name1">選手名（姓）</string>
     <string name="dlg_view_001_name2">選手名（名）</string>
     <string name="dlg_view_001_sex">性別</string>
     <string name="dlg_view_001_birthday">誕生日</string>
+    <string name="dlg_view_001_position">守備</string>
+    <string name="dlg_view_001_pitching">投げる</string>
+    <string name="dlg_view_001_batting">打つ</string>
 
     <!-- メッセージ -->
     <string name="MSG_INP_ERR_001">入力にエラーがあります</string>

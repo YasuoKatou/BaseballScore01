@@ -25,8 +25,9 @@ public class TeamMemberDao extends DaoBase {
         super(fragment);
 
         StringBuffer sb = new StringBuffer("insert into team_member");
-        sb.append(" (name1,name2,sex,birthday,new_date_time,upd_date_time,verno) values")
-          .append(" (?,?,?,?,?,?,?)");
+        sb.append(" (name1,name2,sex,birthday,position_category,pitching,batting")
+          .append(",new_date_time,upd_date_time,verno) values")
+          .append(" (?,?,?,?,?,?,?,?,?,?)");
         this.mSQL_Insert = sb.toString();
     }
 
@@ -45,9 +46,12 @@ public class TeamMemberDao extends DaoBase {
                   statement.bindString(2, entity.getName2());
                   statement.bindLong(3, entity.getSex());
                   statement.bindLong(4, entity.getBirthday());
-                  statement.bindLong(5, entity.getNewDateTime());
-                  statement.bindLong(6, entity.getUpdateDateTime());
-                  statement.bindLong(7, entity.getVersionNo());
+                  statement.bindLong(5, entity.getPositionCategory());
+                  statement.bindLong(6, entity.getPitching());
+                  statement.bindLong(7, entity.getBatting());
+                  statement.bindLong(8, entity.getNewDateTime());
+                  statement.bindLong(9, entity.getUpdateDateTime());
+                  statement.bindLong(10, entity.getVersionNo());
                   statement.executeInsert();
                   db.setTransactionSuccessful();
                   ret = 1;
@@ -67,7 +71,8 @@ public class TeamMemberDao extends DaoBase {
         super.setStartTime();
         boolean distinct = false;
         String table = "team_member";
-        String[] columns = new String[]{"member_id", "name1", "name2", "sex", "birthday"};
+        String[] columns = new String[]{"member_id", "name1", "name2", "sex", "birthday",
+            "position_category", "pitching", "batting"};
         String selection = null;
         String[] selectionArgs = null;
         String groupBy = null;
@@ -84,6 +89,9 @@ public class TeamMemberDao extends DaoBase {
                     .name2(cursor.getString(2))
                     .sex(cursor.getInt(3))
                     .birthday(cursor.getLong(4))
+                    .positionCategory(cursor.getInt(5))
+                    .pitching(cursor.getInt(6))
+                    .batting(cursor.getInt(7))
                     .build());
             }
         }
@@ -107,6 +115,9 @@ public class TeamMemberDao extends DaoBase {
            .append(",name2 text not null")
            .append(",sex int not null")
            .append(",birthday int not null")
+           .append(",position_category int")
+           .append(",pitching int")
+           .append(",batting int")
            .append(",new_date_time int not null")
            .append(",upd_date_time int not null")
            .append(",verno int not null")                // int for self increment

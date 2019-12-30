@@ -10,8 +10,13 @@
 |6|登録日時|new_date_time|int|||no||
 |7|更新日時|upd_date_time|int|||no||
 |8|バージョンNo|verno|int|||no||
-|9||||||||
-|10||||||||
+|9|ポジション|position_category|int|||||
+|10|投|pitching|int|||||
+|11|打|batting|int|||||
+|12||||||||
+|13||||||||
+|14||||||||
+|15||||||||
 
 ### (2) 試合情報テーブル（game_info）
 |No|和名|物理名|型|サイズ|PK|null|備考|
