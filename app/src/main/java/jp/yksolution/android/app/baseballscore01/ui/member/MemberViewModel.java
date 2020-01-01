@@ -1,7 +1,5 @@
 package jp.yksolution.android.app.baseballscore01.ui.member;
 
-import android.content.Context;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -39,6 +37,9 @@ public class MemberViewModel extends ViewModel {
                 .name2(entity.getName2())
                 .sex(entity.getSex())
                 .birthday(entity.getBirthday())
+                .positionCategory(entity.getPositionCategory())
+                .pitching(entity.getPitching())
+                .batting(entity.getBatting())
                 .build());
         }
 

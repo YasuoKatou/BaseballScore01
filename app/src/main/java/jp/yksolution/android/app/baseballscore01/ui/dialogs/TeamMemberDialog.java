@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,30 +24,71 @@ import java.util.Date;
 import jp.yksolution.android.app.baseballscore01.R;
 import jp.yksolution.android.app.baseballscore01.ui.common.Const;
 import jp.yksolution.android.app.baseballscore01.ui.member.TeamMemberDto;
+import jp.yksolution.android.app.baseballscore01.utils.DateTime;
 
 public class TeamMemberDialog extends DialogFragment {
     private static final String TAG = TeamMemberDialog.class.getSimpleName();
+
+    public TeamMemberDialog() {
+        super();
+    }
+
+    /**
+     * 更新対象のメンバー情報を設定するコンストラクタ
+     */
+    private TeamMemberDto updateMember = null;
+    public TeamMemberDialog(TeamMemberDto updateMember) {
+        super();
+        this.updateMember = updateMember;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Activity activity = getActivity();
         final View dialogView = LayoutInflater.from(activity).inflate(R.layout.team_member_dialog, null);
 
+        if (this.updateMember != null) {
+            TeamMemberDto dto = this.updateMember;
+            ((TextView)dialogView.findViewById(R.id.teamMemberName1)).setText(dto.getName1());
+            ((TextView)dialogView.findViewById(R.id.teamMemberName2)).setText(dto.getName2());
+            ((ToggleButton)dialogView.findViewById(R.id.teamMemberSex)).setChecked(
+                (dto.getSex() == Const.SEX.GIRL) ? false : true);
+            ((EditText)dialogView.findViewById(R.id.teamMemberBirthday)).setText(
+                DateTime.getDate(dto.getBirthday().longValue()));
+
+            Resources res = this.getResources();
+            ((Spinner)dialogView.findViewById(R.id.position_category)).setSelection(
+                Const.getPositionCategoryIndex(res, dto.getPositionCategory()));
+            ((Spinner)dialogView.findViewById(R.id.pitching)).setSelection(
+                Const.getPichingIndex(res, dto.getPitching()));
+            ((Spinner)dialogView.findViewById(R.id.batting)).setSelection(
+                    Const.getBattingIndex(res, dto.getBatting()));
+        }
+
         return new AlertDialog.Builder(activity)
             .setView(dialogView)
             .setTitle(R.string.opt_menu_team_member_append)
-            .setPositiveButton(R.string.DLG_ENTRY
+            .setPositiveButton((this.updateMember == null) ? R.string.DLG_ENTRY : R.string.DLG_UPDATE
                 , new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        addMember(dialogView);
+                        if (updateMember == null) {
+                            addTeamMember(dialogView);
+                        } else {
+                            updateTeamMember(dialogView);
+                        }
                     }
                 })
             .create();
     }
 
     public interface NoticeDialogListener {
-        void onDialogPositiveClick(TeamMemberDto teamMemberDto);
+        /**
+         * 選手登録.
+         * @param teamMemberDto
+         */
+        void addTeamMember(TeamMemberDto teamMemberDto);
+        void updateTeamMember(TeamMemberDto teamMemberDto);
     }
     private NoticeDialogListener mNoticeDialogListener;
 
@@ -67,7 +109,16 @@ public class TeamMemberDialog extends DialogFragment {
      * チームのメンバーを登録する
      * @param dialogView
      */
-    private void addMember(View dialogView) {
+    private void addTeamMember(View dialogView) {
+        mNoticeDialogListener.addTeamMember(this.makeTeamMemberDto(dialogView));
+    }
+
+    /**
+     * ダイアログビューから入力データ（選手情報）を取得する.
+     * @param dialogView
+     * @return
+     */
+    private TeamMemberDto makeTeamMemberDto(View dialogView) {
         String name1 = ((TextView)dialogView.findViewById(R.id.teamMemberName1)).getText().toString();
         String name2 = ((TextView)dialogView.findViewById(R.id.teamMemberName2)).getText().toString();
         int sex = (((ToggleButton)dialogView.findViewById(R.id.teamMemberSex)).isChecked()) ? Const.SEX.BOY : Const.SEX.GIRL;
@@ -85,16 +136,25 @@ public class TeamMemberDialog extends DialogFragment {
             birthDay = null;
             Log.e(TAG, "日付エラー : " + strBirthday);
         }
-        mNoticeDialogListener.onDialogPositiveClick(
-            TeamMemberDto.builder()
-                .name1(name1)
-                .name2(name2)
-                .sex(sex)
-                .birthday((birthDay == null) ? null : birthDay.getTime())
-                .positionCategory(Const.getPositionCategoryCodeByString(positionCategory))
-                .pitching(Const.getPichingCodeByString(piching))
-                .batting(Const.getBattingCodeByString(batting))
-                .build());
+        return TeamMemberDto.builder()
+            .name1(name1)
+            .name2(name2)
+            .sex(sex)
+            .birthday((birthDay == null) ? null : birthDay.getTime())
+            .positionCategory(Const.getPositionCategoryCodeByString(positionCategory))
+            .pitching(Const.getPichingCodeByString(piching))
+            .batting(Const.getBattingCodeByString(batting))
+            .build();
+    }
+
+    /**
+     * チームのメンバーを更新する
+     * @param dialogView
+     */
+    private void updateTeamMember(View dialogView) {
+        TeamMemberDto dto = this.makeTeamMemberDto(dialogView);
+        dto.setMemberId(this.updateMember.getMemberId());
+        mNoticeDialogListener.updateTeamMember(dto);
     }
 
     /**

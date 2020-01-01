@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,13 +37,28 @@ public class MemberFragment extends Fragment
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        memberViewModel =
+        this.memberViewModel =
                 ViewModelProviders.of(this).get(MemberViewModel.class);
         View root = inflater.inflate(R.layout.fragment_member, container, false);
 
         this.listView = (ListView) root.findViewById(R.id.teamMemberList);
-        adapter = new MemberListAdapter(this.getContext());
-        memberViewModel.getTeamMembers(this).observe(this, new Observer<List<TeamMemberDto>>() {
+        this.listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            /**
+             * ロングタップで登録選手を選択し、更新画面を開く
+             * @param parent
+             * @param view
+             * @param position 一覧の行インデックス
+             * @param id 選手ID
+             * @return
+             */
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent,View view, int position, long id) {
+                showUpdateDialog(position);
+                return true;
+            }
+        });
+        this.adapter = new MemberListAdapter(this.getContext());
+        this.memberViewModel.getTeamMembers(this).observe(this, new Observer<List<TeamMemberDto>>() {
             @Override
             public void onChanged(@Nullable List<TeamMemberDto> list) {
                 adapter.setTeamMemberList(list);
@@ -85,24 +101,27 @@ public class MemberFragment extends Fragment
     }
 
     /**
+     * 登録選手を更新するダイアログを開く
+     * @param rowIndex 一覧の行インデックス
+     */
+    private void showUpdateDialog(int rowIndex) {
+        TeamMemberDto dto = (TeamMemberDto)this.adapter.getItem(rowIndex);
+        Log.d(TAG, dto.toString());
+        TeamMemberDialog dlg = new TeamMemberDialog(dto);
+        dlg.show(getActivity().getSupportFragmentManager(), dlg.getTag());
+    }
+
+    /**
      * チームメンバーの登録処理を行う.<br/>
      * for TeamMemberDialog.NoticeDialogListener
      * @param teamMemberDto
      */
     @Override
-    public void onDialogPositiveClick(TeamMemberDto teamMemberDto) {
+    public void addTeamMember(TeamMemberDto teamMemberDto) {
         Log.d(TAG, teamMemberDto.toString());
         if (this.isValid(teamMemberDto)) {
             // ＤＢ登録エンティティを編集
-            TeamMemberEntity entity = TeamMemberEntity.builder()
-                .name1(teamMemberDto.getName1())
-                .name2(teamMemberDto.getName2())
-                .sex(teamMemberDto.getSex())
-                .birthday(teamMemberDto.getBirthday().longValue())
-                .positionCategory(teamMemberDto.getPositionCategory())
-                .pitching(teamMemberDto.getPitching())
-                .batting(teamMemberDto.getBatting())
-                .build();
+            TeamMemberEntity entity = this.makeTeamMemberEntity(teamMemberDto);
             // ＤＢに登録
             TeamMemberDao dao = new TeamMemberDao(this);
             int count = dao.addTeamMember(entity);
@@ -114,6 +133,55 @@ public class MemberFragment extends Fragment
                 message = getResources().getString(R.string.MSG_DB_INS_OK);
             } else {
                 message = getResources().getString(R.string.MSG_DB_INS_NG);
+            }
+            Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
+        } else {
+            // 入力に誤りあり
+            String message = getResources().getString(R.string.MSG_INP_ERR_001);
+            Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * ＤＢに登録／更新する選手情報エンティティを編集する.
+     * @param teamMemberDto
+     * @return
+     */
+    private TeamMemberEntity makeTeamMemberEntity(TeamMemberDto teamMemberDto) {
+        return TeamMemberEntity.builder()
+            .memberId(teamMemberDto.getMemberId())
+            .name1(teamMemberDto.getName1())
+            .name2(teamMemberDto.getName2())
+            .sex(teamMemberDto.getSex())
+            .birthday(teamMemberDto.getBirthday().longValue())
+            .positionCategory(teamMemberDto.getPositionCategory())
+            .pitching(teamMemberDto.getPitching())
+            .batting(teamMemberDto.getBatting())
+            .build();
+    }
+
+    /**
+     * チームメンバーの更新処理を行う.<br/>
+     * for TeamMemberDialog.NoticeDialogListener
+     * @param teamMemberDto
+     */
+    @Override
+    public void updateTeamMember(TeamMemberDto teamMemberDto) {
+        Log.d(TAG, teamMemberDto.toString());
+        if (this.isValid(teamMemberDto)) {
+            // ＤＢ更新エンティティを編集
+            TeamMemberEntity entity = this.makeTeamMemberEntity(teamMemberDto);
+            // ＤＢを更新
+            TeamMemberDao dao = new TeamMemberDao(this);
+            int count = dao.updateTeamMember(entity);
+            // 更新結果を確認
+            String message;
+            if (count == 1) {
+                // 更新後の一覧を更新するため再読み込み
+                this.memberViewModel.refreshTeamMembers();
+                message = getResources().getString(R.string.MSG_DB_UPD_OK);
+            } else {
+                message = getResources().getString(R.string.MSG_DB_UPD_NG);
             }
             Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
         } else {

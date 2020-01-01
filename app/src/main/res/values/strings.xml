@@ -19,19 +19,22 @@
     <string name="opt_menu_team_add_ob">卒団も表示</string>
 
     <string name="DLG_ENTRY">登録</string>
+    <string name="DLG_UPDATE">更新</string>
+    <string name="DLG_DELETE">削除</string>
+
     <string name="SEX_BOY">男子</string>
     <string name="SEX_GIRL">女子</string>
 
     <string-array name="pitching_type_list">
-        <item>右</item>
-        <item>左</item>
-        <item>左右</item>
+        <item>右投げ</item>
+        <item>左投げ</item>
+        <item>両投げ</item>
     </string-array>
 
     <string-array name="batting_type_list">
-        <item>右</item>
-        <item>左</item>
-        <item>左右</item>
+        <item>右打ち</item>
+        <item>左打ち</item>
+        <item>両打ち</item>
     </string-array>
 
     <string-array name="position_category_list">
@@ -46,13 +49,15 @@
     <string name="dlg_view_001_name2">選手名（名）</string>
     <string name="dlg_view_001_sex">性別</string>
     <string name="dlg_view_001_birthday">誕生日</string>
-    <string name="dlg_view_001_position">守備</string>
-    <string name="dlg_view_001_pitching">投げる</string>
-    <string name="dlg_view_001_batting">打つ</string>
+    <string name="dlg_view_001_position">守</string>
+    <string name="dlg_view_001_pitching">投</string>
+    <string name="dlg_view_001_batting">打</string>
 
     <!-- メッセージ -->
     <string name="MSG_INP_ERR_001">入力にエラーがあります</string>
     <string name="MSG_DB_INS_OK">登録しました.</string>
     <string name="MSG_DB_INS_NG">登録に失敗しました.</string>
+    <string name="MSG_DB_UPD_OK">更新しました.</string>
+    <string name="MSG_DB_UPD_NG">更新に失敗しました.</string>
 
 </resources>

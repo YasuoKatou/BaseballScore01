@@ -17,4 +17,12 @@ public class DateTime {
     public static String now() {
         return DateFormat.format("yyyy/MM/dd kk:mm:ss", Calendar.getInstance()).toString();
     }
+
+    /**
+     * 日付を文字列で取得する.
+     * @return 日付文字列
+     */
+    public static String getDate(long date) {
+        return DateFormat.format("yyyy/M/d", date).toString();
+    }
 }
