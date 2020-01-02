@@ -103,7 +103,31 @@ public class TeamMemberDao extends DaoBase {
             db.setTransactionSuccessful();
         } finally {
             long time = super.endTransaction(db);
-            Log.d(TAG,"updated : " + time + "ms (update:" + count + ")");
+            Log.d(TAG,"updated : " + time + "ms (update num :" + count + ")");
+        }
+        return count;
+    }
+
+    /**
+     * チームの選手情報を削除する.
+     * @param memberId
+     * @return
+     */
+    public int deleteTeamMember(long memberId) {
+        Log.d(TAG, "delete by " + Long.toString(memberId));
+        int count = 0;
+        String table = TABLE_NAME;
+        // 削除条件
+        String[] whereArgs = new String[] {Long.toString(memberId)};
+
+        SQLiteDatabase db = super.getSQLiteDatabase();
+        super.beginTransaction(db);
+        try {
+            count = db.delete(table, "member_id = ?", whereArgs);
+            db.setTransactionSuccessful();
+        } finally {
+            long time = super.endTransaction(db);
+            Log.d(TAG,"deleted : " + time + "ms (delete num : " + count + ")");
         }
         return count;
     }
@@ -181,5 +205,6 @@ public class TeamMemberDao extends DaoBase {
         ddl.append(TABLE_NAME).append("(birthday, name1, name2)");
         Log.d(tag, "CREATE INDEX : " + ddl.toString());
         db.execSQL(ddl.toString());
-        Log.d(tag, "CREATE INDEX passed");    }
+        Log.d(tag, "CREATE INDEX passed");
+    }
 }

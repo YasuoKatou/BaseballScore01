@@ -65,7 +65,7 @@ public class TeamMemberDialog extends DialogFragment {
                     Const.getBattingIndex(res, dto.getBatting()));
         }
 
-        return new AlertDialog.Builder(activity)
+        AlertDialog dlg = new AlertDialog.Builder(activity)
             .setView(dialogView)
             .setTitle(R.string.opt_menu_team_member_append)
             .setPositiveButton((this.updateMember == null) ? R.string.DLG_ENTRY : R.string.DLG_UPDATE
@@ -73,13 +73,29 @@ public class TeamMemberDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         if (updateMember == null) {
+                            // 選手情報登録
                             addTeamMember(dialogView);
                         } else {
+                            // 選手情報更新
                             updateTeamMember(dialogView);
                         }
                     }
                 })
             .create();
+        if (this.updateMember != null) {
+            String buttonText = getString(R.string.DLG_DELETE);
+            dlg.setButton(AlertDialog.BUTTON_NEGATIVE, buttonText
+                , new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    // 選手情報削除
+                    mNoticeDialogListener.deleteTeamMember(
+                        updateMember.getMemberId(), updateMember.getName());
+                    }
+                }
+            );
+        }
+        return dlg;
     }
 
     public interface NoticeDialogListener {
@@ -88,7 +104,17 @@ public class TeamMemberDialog extends DialogFragment {
          * @param teamMemberDto
          */
         void addTeamMember(TeamMemberDto teamMemberDto);
+        /**
+         * 選手データ更新.
+         * @param teamMemberDto
+         */
         void updateTeamMember(TeamMemberDto teamMemberDto);
+        /**
+         * 選手データ削除
+         * @param memberId
+         * @param name
+         */
+        void deleteTeamMember(long memberId, String name);
     }
     private NoticeDialogListener mNoticeDialogListener;
 
@@ -148,7 +174,7 @@ public class TeamMemberDialog extends DialogFragment {
     }
 
     /**
-     * チームのメンバーを更新する
+     * チームのメンバー情報を更新する
      * @param dialogView
      */
     private void updateTeamMember(View dialogView) {

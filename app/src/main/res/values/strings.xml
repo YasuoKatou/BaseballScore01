@@ -59,5 +59,7 @@
     <string name="MSG_DB_INS_NG">登録に失敗しました.</string>
     <string name="MSG_DB_UPD_OK">更新しました.</string>
     <string name="MSG_DB_UPD_NG">更新に失敗しました.</string>
+    <string name="MSG_DB_DLT_OK">【%s】を削除しました.</string>
+    <string name="MSG_DB_DLT_NG">【%s】の削除に失敗しました.</string>
 
 </resources>

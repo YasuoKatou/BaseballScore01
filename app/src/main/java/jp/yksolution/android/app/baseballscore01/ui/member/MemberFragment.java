@@ -118,7 +118,7 @@ public class MemberFragment extends Fragment
      */
     @Override
     public void addTeamMember(TeamMemberDto teamMemberDto) {
-        Log.d(TAG, teamMemberDto.toString());
+        Log.d(TAG, "append info : " + teamMemberDto.toString());
         if (this.isValid(teamMemberDto)) {
             // ＤＢ登録エンティティを編集
             TeamMemberEntity entity = this.makeTeamMemberEntity(teamMemberDto);
@@ -167,7 +167,7 @@ public class MemberFragment extends Fragment
      */
     @Override
     public void updateTeamMember(TeamMemberDto teamMemberDto) {
-        Log.d(TAG, teamMemberDto.toString());
+        Log.d(TAG, "update info : " + teamMemberDto.toString());
         if (this.isValid(teamMemberDto)) {
             // ＤＢ更新エンティティを編集
             TeamMemberEntity entity = this.makeTeamMemberEntity(teamMemberDto);
@@ -201,5 +201,31 @@ public class MemberFragment extends Fragment
         if (StringUtils.isEmpty(dto.getName2())) return false;
         if (dto.getBirthday() == null) return false;
         return true;
+    }
+
+    /**
+     * チームメンバーの削除処理を行う.<br/>
+     * for TeamMemberDialog.NoticeDialogListener
+     * @param teamMemberId
+     */
+    @Override
+    public void deleteTeamMember(long teamMemberId, String name) {
+        Log.d(TAG, "delete Member ID : " + Long.toString(teamMemberId));
+
+        // ＤＢから削除
+        TeamMemberDao dao = new TeamMemberDao(this);
+        int count = dao.deleteTeamMember(teamMemberId);
+        // 削除結果を確認
+        int messageFmtId;
+        if (count == 1) {
+            // 更新後の一覧を更新するため再読み込み
+            this.memberViewModel.refreshTeamMembers();
+            messageFmtId = R.string.MSG_DB_DLT_OK;
+        } else {
+            messageFmtId = R.string.MSG_DB_DLT_NG;
+        }
+        String msgFrm = getResources().getString(messageFmtId);
+        String message = String.format(msgFrm, name);
+        Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
     }
 }
