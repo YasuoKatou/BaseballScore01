@@ -15,9 +15,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,12 +23,10 @@ import jp.yksolution.android.app.baseballscore01.ui.common.Const;
 import jp.yksolution.android.app.baseballscore01.ui.member.TeamMemberDto;
 import jp.yksolution.android.app.baseballscore01.utils.DateTime;
 
-public class TeamMemberDialog extends DialogFragment {
+public class TeamMemberDialog extends DialogFragmentEx {
     private static final String TAG = TeamMemberDialog.class.getSimpleName();
 
-    public TeamMemberDialog() {
-        super();
-    }
+    public TeamMemberDialog() { super(); }
 
     /**
      * 更新対象のメンバー情報を設定するコンストラクタ
@@ -89,8 +84,7 @@ public class TeamMemberDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                     // 選手情報削除
-                    mNoticeDialogListener.deleteTeamMember(
-                        updateMember.getMemberId(), updateMember.getName());
+                    mNoticeDialogListener.deleteTeamMember(updateMember);
                     }
                 }
             );
@@ -98,7 +92,7 @@ public class TeamMemberDialog extends DialogFragment {
         return dlg;
     }
 
-    public interface NoticeDialogListener {
+    public interface NoticeDialogListener extends NoticeDialogListenerBase {
         /**
          * 選手登録.
          * @param teamMemberDto
@@ -111,24 +105,16 @@ public class TeamMemberDialog extends DialogFragment {
         void updateTeamMember(TeamMemberDto teamMemberDto);
         /**
          * 選手データ削除
-         * @param memberId
-         * @param name
+         * @param teamMemberDto
          */
-        void deleteTeamMember(long memberId, String name);
+        void deleteTeamMember(TeamMemberDto teamMemberDto);
     }
     private NoticeDialogListener mNoticeDialogListener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Fragment host = this.getFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        for (Fragment fragment : host.getChildFragmentManager().getFragments()) {
-            if (fragment instanceof NoticeDialogListener) {
-                mNoticeDialogListener = (NoticeDialogListener) fragment;
-                return;
-            }
-        }
-        throw new ClassCastException(TAG + " must implement NoticeDialogListener");
+        this.mNoticeDialogListener = (NoticeDialogListener)super.getActiveFragment();
     }
 
     /**
@@ -181,17 +167,5 @@ public class TeamMemberDialog extends DialogFragment {
         TeamMemberDto dto = this.makeTeamMemberDto(dialogView);
         dto.setMemberId(this.updateMember.getMemberId());
         mNoticeDialogListener.updateTeamMember(dto);
-    }
-
-    /**
-     * おまじない
-     * 【コピペしてすぐ使えるアラートダイアログ集】より
-     * （https://qiita.com/suzukihr/items/8973527ebb8bb35f6bb8）
-     */
-    @Override
-    public void onPause() {
-        super.onPause();
-        // onPause でダイアログを閉じる場合
-        dismiss();
     }
 }

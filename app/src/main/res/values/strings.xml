@@ -18,6 +18,9 @@
     <string name="opt_menu_team_member_append">選手登録</string>
     <string name="opt_menu_team_add_ob">卒団も表示</string>
 
+    <string name="DLG_TITLE_CONF">確認</string>
+    <string name="DLG_CONF_YES">はい</string>
+    <string name="DLG_CONF_NO">いいえ</string>
     <string name="DLG_ENTRY">登録</string>
     <string name="DLG_UPDATE">更新</string>
     <string name="DLG_DELETE">削除</string>
@@ -61,5 +64,6 @@
     <string name="MSG_DB_UPD_NG">更新に失敗しました.</string>
     <string name="MSG_DB_DLT_OK">【%s】を削除しました.</string>
     <string name="MSG_DB_DLT_NG">【%s】の削除に失敗しました.</string>
+    <string name="MSG_CONG_001">登録選手【%s】を削除します.</string>
 
 </resources>

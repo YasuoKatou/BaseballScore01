@@ -25,10 +25,12 @@ import jp.yksolution.android.app.baseballscore01.R;
 import jp.yksolution.android.app.baseballscore01.db.dao.TeamMemberDao;
 import jp.yksolution.android.app.baseballscore01.db.entity.TeamMemberEntity;
 import jp.yksolution.android.app.baseballscore01.ui.common.PopupMenuOperation;
+import jp.yksolution.android.app.baseballscore01.ui.dialogs.ConfirmationDialog;
 import jp.yksolution.android.app.baseballscore01.ui.dialogs.TeamMemberDialog;
 
 public class MemberFragment extends Fragment
-    implements PopupMenuOperation, TeamMemberDialog.NoticeDialogListener {
+    implements PopupMenuOperation, TeamMemberDialog.NoticeDialogListener,
+        ConfirmationDialog.NoticeDialogListener {
     private static final String TAG = MemberFragment.class.getSimpleName();
 
     private MemberViewModel memberViewModel;
@@ -206,15 +208,27 @@ public class MemberFragment extends Fragment
     /**
      * チームメンバーの削除処理を行う.<br/>
      * for TeamMemberDialog.NoticeDialogListener
-     * @param teamMemberId
+     * @param teamMemberDto
      */
     @Override
-    public void deleteTeamMember(long teamMemberId, String name) {
-        Log.d(TAG, "delete Member ID : " + Long.toString(teamMemberId));
+    public void deleteTeamMember(TeamMemberDto teamMemberDto) {
+        String[] params = new String[]{teamMemberDto.getName()};
+        ConfirmationDialog dlg = new ConfirmationDialog(R.string.MSG_CONG_001, params, teamMemberDto);
+        dlg.show(getActivity().getSupportFragmentManager(), dlg.getTag());
+    }
+
+    /**
+     * チームメンバーの削除処理を行う.<br/>
+     * for ConfirmationDialog.NoticeDialogListener
+     */
+    @Override
+    public void forwardProcess(Object obj) {
+        Log.d(TAG, "delete Member info : " + obj.toString());
+        TeamMemberDto dto = (TeamMemberDto)obj;
 
         // ＤＢから削除
         TeamMemberDao dao = new TeamMemberDao(this);
-        int count = dao.deleteTeamMember(teamMemberId);
+        int count = dao.deleteTeamMember(dto.getMemberId());
         // 削除結果を確認
         int messageFmtId;
         if (count == 1) {
@@ -224,8 +238,8 @@ public class MemberFragment extends Fragment
         } else {
             messageFmtId = R.string.MSG_DB_DLT_NG;
         }
-        String msgFrm = getResources().getString(messageFmtId);
-        String message = String.format(msgFrm, name);
+        String msgFrm = this.getResources().getString(messageFmtId);
+        String message = String.format(msgFrm, dto.getName());
         Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
     }
 }
