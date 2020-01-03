@@ -29,4 +29,6 @@ public class TeamMemberEntity extends EntityBase {
     private Integer pitching;
     /** 右打ち／左打ち. */
     private Integer batting;
+    /** 状態（団員、卒団、中退）. */
+    private int status;
 }

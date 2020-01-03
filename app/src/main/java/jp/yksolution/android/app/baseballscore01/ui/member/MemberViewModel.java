@@ -40,6 +40,7 @@ public class MemberViewModel extends ViewModel {
                 .positionCategory(entity.getPositionCategory())
                 .pitching(entity.getPitching())
                 .batting(entity.getBatting())
+                .status(entity.getStatus())
                 .build());
         }
 

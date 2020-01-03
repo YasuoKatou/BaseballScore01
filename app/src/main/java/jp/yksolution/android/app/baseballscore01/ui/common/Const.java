@@ -209,4 +209,65 @@ public class Const {
 
         return 0;
     }
+
+    /**
+     * チームメンバー状態.
+     */
+    public static class TEAM_MEMBER_STATUS {
+        /** 団員：1. */
+        public static final Integer ACTIVE = Integer.valueOf(1);
+        /** 卒団：2. */
+        public static final Integer OLD = Integer.valueOf(2);
+        /** 中退：3. */
+        public static final Integer DROP_OUT = Integer.valueOf(3);
+    }
+    /** チームメンバー状態キーワード */
+    private static final String[] TEAM_MEMBER_STATUS_KEYWORDS = {"員", "卒", "退"};
+
+    /**
+     * 指定文字よりチームメンバー状態コードを取得する.
+     * @param status
+     * @return
+     */
+    public static Integer getTeamMemberStatusByString(String status) {
+        if (StringUtils.isEmpty(status)) return null;
+
+        if (status.indexOf(TEAM_MEMBER_STATUS_KEYWORDS[0]) != -1) return TEAM_MEMBER_STATUS.ACTIVE;
+        if (status.indexOf(TEAM_MEMBER_STATUS_KEYWORDS[1]) != -1) return TEAM_MEMBER_STATUS.OLD;
+        if (status.indexOf(TEAM_MEMBER_STATUS_KEYWORDS[2]) != -1) return TEAM_MEMBER_STATUS.DROP_OUT;
+
+        return null;
+    }
+
+    /**
+     * チームメンバー状態の設定値からチームメンバー状態一覧のインデックスを決定する.
+     * @param res リソース
+     * @param value チームメンバー状態の設定値
+     * @return インデックス
+     */
+    public static int getTeamMemberStatusIndex(Resources res, Integer value) {
+        String keyword;
+        if (TEAM_MEMBER_STATUS.ACTIVE.equals(value)) {
+            keyword = TEAM_MEMBER_STATUS_KEYWORDS[0];
+        } else if (TEAM_MEMBER_STATUS.OLD.equals(value)) {
+            keyword = TEAM_MEMBER_STATUS_KEYWORDS[1];
+        } else if (TEAM_MEMBER_STATUS.DROP_OUT.equals(value)) {
+            keyword = TEAM_MEMBER_STATUS_KEYWORDS[2];
+        } else {
+            Log.e("getTeamMemberStatusIndex", "no such code : " + ((value == null) ? "null" : value.toString()));
+            return 0;
+        }
+
+        String[] values = res.getStringArray(R.array.team_member_status);
+        if (values == null) {
+            Log.e("getTeamMemberStatusIndex", "no such array");
+            return 0;
+        }
+        String item;
+        for (int index = 0; index < values.length; ++index) {
+            if (values[index].indexOf(keyword) != -1) return index;
+        }
+
+        return 0;
+    }
 }

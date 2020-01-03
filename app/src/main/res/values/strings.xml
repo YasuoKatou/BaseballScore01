@@ -47,6 +47,12 @@
         <item>捕手</item>
     </string-array>
 
+    <string-array name="team_member_status">
+        <item>団員</item>
+        <item>卒団</item>
+        <item>中退</item>
+    </string-array>
+
     <!-- 選手登録ダイアログ -->
     <string name="dlg_view_001_name1">選手名（姓）</string>
     <string name="dlg_view_001_name2">選手名（名）</string>
@@ -55,6 +61,7 @@
     <string name="dlg_view_001_position">守</string>
     <string name="dlg_view_001_pitching">投</string>
     <string name="dlg_view_001_batting">打</string>
+    <string name="dlg_view_001_status">団員状態</string>
 
     <!-- メッセージ -->
     <string name="MSG_INP_ERR_001">入力にエラーがあります</string>

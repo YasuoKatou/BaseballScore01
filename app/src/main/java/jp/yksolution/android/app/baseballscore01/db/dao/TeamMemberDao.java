@@ -30,8 +30,8 @@ public class TeamMemberDao extends DaoBase {
         StringBuffer sb = new StringBuffer("insert into ");
         sb.append(TABLE_NAME)
           .append(" (name1, name2, sex, birthday, position_category, pitching, batting")
-          .append(",new_date_time, upd_date_time, verno) values")
-          .append(" (?,?,?,?,?,?,?,?,?,?)");
+          .append(",status,new_date_time, upd_date_time, verno) values")
+          .append(" (?,?,?,?,?,?,?,?,?,?,?)");
         this.mSQL_Insert = sb.toString();
     }
 
@@ -58,9 +58,10 @@ public class TeamMemberDao extends DaoBase {
                       (entity.getPitching() == null) ? null : entity.getPitching().intValue());
                   statement.bindLong(7,
                       (entity.getBatting() == null) ? null :entity.getBatting().intValue());
-                  statement.bindLong(8, entity.getNewDateTime());
-                  statement.bindLong(9, entity.getUpdateDateTime());
-                  statement.bindLong(10, entity.getVersionNo());
+                  statement.bindLong(8, entity.getStatus());
+                  statement.bindLong(9, entity.getNewDateTime());
+                  statement.bindLong(10, entity.getUpdateDateTime());
+                  statement.bindLong(11, entity.getVersionNo());
                   statement.executeInsert();
                   db.setTransactionSuccessful();
                   ret = 1;
@@ -90,6 +91,7 @@ public class TeamMemberDao extends DaoBase {
         values.put("position_category", entity.getPositionCategory());
         values.put("pitching", entity.getPitching());
         values.put("batting", entity.getBatting());
+        values.put("status", entity.getStatus());
         values.put("upd_date_time", entity.getUpdateDateTime());
         values.put("verno", entity.getVersionNo());
         // 更新条件
@@ -141,7 +143,7 @@ public class TeamMemberDao extends DaoBase {
         boolean distinct = false;
         String table = TABLE_NAME;
         String[] columns = new String[]{"member_id", "name1", "name2", "sex", "birthday",
-            "position_category", "pitching", "batting", "new_date_time", "upd_date_time", "verno"};
+            "position_category", "pitching", "batting", "status", "new_date_time", "upd_date_time", "verno"};
         String selection = null;
         String[] selectionArgs = null;
         String groupBy = null;
@@ -161,10 +163,11 @@ public class TeamMemberDao extends DaoBase {
                     .positionCategory(cursor.getInt(5))
                     .pitching(cursor.getInt(6))
                     .batting(cursor.getInt(7))
+                    .status(cursor.getInt(8))
                     .build();
-                entity.setNewDateTime(cursor.getInt(8));
-                entity.setUpdateDateTime(cursor.getInt(9));
-                entity.setVersionNo(cursor.getInt(10));
+                entity.setNewDateTime(cursor.getInt(9));
+                entity.setUpdateDateTime(cursor.getInt(10));
+                entity.setVersionNo(cursor.getInt(11));
                 list.add(entity);
             }
         }
@@ -192,6 +195,7 @@ public class TeamMemberDao extends DaoBase {
            .append(",position_category int")
            .append(",pitching int")
            .append(",batting int")
+           .append(",status int")
            .append(",new_date_time int not null")
            .append(",upd_date_time int not null")
            .append(",verno int not null")                // int for self increment
@@ -202,7 +206,7 @@ public class TeamMemberDao extends DaoBase {
 
         // インデックスを作成
         ddl = new StringBuilder("create index team_member_idx1 on ");
-        ddl.append(TABLE_NAME).append("(birthday, name1, name2)");
+        ddl.append(TABLE_NAME).append("(status, birthday, name1, name2)");
         Log.d(tag, "CREATE INDEX : " + ddl.toString());
         db.execSQL(ddl.toString());
         Log.d(tag, "CREATE INDEX passed");

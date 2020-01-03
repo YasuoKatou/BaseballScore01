@@ -38,6 +38,9 @@ public class TeamMemberDto {
     /** 右打ち／左打ち. */
     @Getter @Setter private Integer batting;
 
+    /** 状態（団員、卒団、中退）. */
+    @Getter @Setter private int status;
+
     /** 年齢. */
     public int getAge() {
         String now = DateFormat.format("yyyyMMdd", Calendar.getInstance()).toString();

@@ -57,29 +57,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/dlg_view_001_sex"
-            android:textAlignment="center"
-            android:textSize="14sp" />
-
-        <ToggleButton
-            android:id="@+id/teamMemberSex"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:textOff="@string/SEX_GIRL"
-            android:textOn="@string/SEX_BOY" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/dlg_view_001_birthday"
             android:textAlignment="center"
             android:textSize="14sp" />
@@ -99,14 +76,6 @@
         android:orientation="horizontal"
         android:paddingTop="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/dlg_view_001_position"
-            android:textAlignment="center"
-            android:textSize="14sp" />
-
         <Spinner
             android:id="@+id/position_category"
             android:layout_width="match_parent"
@@ -122,14 +91,6 @@
         android:orientation="horizontal"
         android:paddingTop="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/dlg_view_001_pitching"
-            android:textAlignment="center"
-            android:textSize="14sp" />
-
         <Spinner
             android:id="@+id/pitching"
             android:layout_width="match_parent"
@@ -137,6 +98,37 @@
             android:layout_weight="1"
             android:entries="@array/pitching_type_list"
             android:textAlignment="center" />
+
+        <Spinner
+            android:id="@+id/batting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/batting_type_list"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dlg_view_001_sex"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <ToggleButton
+            android:id="@+id/teamMemberSex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:textOff="@string/SEX_GIRL"
+            android:textOn="@string/SEX_BOY" />
     </LinearLayout>
 
     <LinearLayout
@@ -149,17 +141,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/dlg_view_001_batting"
+            android:text="@string/dlg_view_001_status"
             android:textAlignment="center"
             android:textSize="14sp" />
 
         <Spinner
-            android:id="@+id/batting"
+            android:id="@+id/memberStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:entries="@array/batting_type_list"
-            android:textAlignment="center" />
+            android:entries="@array/team_member_status" />
     </LinearLayout>
 
 </LinearLayout>

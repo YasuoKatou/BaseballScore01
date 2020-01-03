@@ -58,6 +58,8 @@ public class TeamMemberDialog extends DialogFragmentEx {
                 Const.getPichingIndex(res, dto.getPitching()));
             ((Spinner)dialogView.findViewById(R.id.batting)).setSelection(
                     Const.getBattingIndex(res, dto.getBatting()));
+            ((Spinner)dialogView.findViewById(R.id.memberStatus)).setSelection(
+                    Const.getTeamMemberStatusIndex(res, dto.getStatus()));
         }
 
         AlertDialog dlg = new AlertDialog.Builder(activity)
@@ -135,6 +137,7 @@ public class TeamMemberDialog extends DialogFragmentEx {
         String name2 = ((TextView)dialogView.findViewById(R.id.teamMemberName2)).getText().toString();
         int sex = (((ToggleButton)dialogView.findViewById(R.id.teamMemberSex)).isChecked()) ? Const.SEX.BOY : Const.SEX.GIRL;
         String strBirthday = ((EditText)dialogView.findViewById(R.id.teamMemberBirthday)).getText().toString();
+        String status = (String)((Spinner)dialogView.findViewById(R.id.memberStatus)).getSelectedItem();
 
         String positionCategory = (String)((Spinner)dialogView.findViewById(R.id.position_category)).getSelectedItem();
         String piching = (String)((Spinner)dialogView.findViewById(R.id.pitching)).getSelectedItem();
@@ -156,6 +159,7 @@ public class TeamMemberDialog extends DialogFragmentEx {
             .positionCategory(Const.getPositionCategoryCodeByString(positionCategory))
             .pitching(Const.getPichingCodeByString(piching))
             .batting(Const.getBattingCodeByString(batting))
+            .status(Const.getTeamMemberStatusByString(status))
             .build();
     }
 

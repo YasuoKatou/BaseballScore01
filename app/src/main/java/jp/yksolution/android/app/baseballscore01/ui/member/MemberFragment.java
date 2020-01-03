@@ -159,6 +159,7 @@ public class MemberFragment extends Fragment
             .positionCategory(teamMemberDto.getPositionCategory())
             .pitching(teamMemberDto.getPitching())
             .batting(teamMemberDto.getBatting())
+            .status(teamMemberDto.getStatus())
             .build();
     }
 
