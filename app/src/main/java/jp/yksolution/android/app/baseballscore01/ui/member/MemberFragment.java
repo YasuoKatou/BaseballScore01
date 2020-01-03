@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 import jp.yksolution.android.app.baseballscore01.R;
+import jp.yksolution.android.app.baseballscore01.db.DbHelper;
 import jp.yksolution.android.app.baseballscore01.db.dao.TeamMemberDao;
 import jp.yksolution.android.app.baseballscore01.db.entity.TeamMemberEntity;
 import jp.yksolution.android.app.baseballscore01.ui.common.PopupMenuOperation;
@@ -122,18 +123,18 @@ public class MemberFragment extends Fragment
     public void addTeamMember(TeamMemberDto teamMemberDto) {
         Log.d(TAG, "append info : " + teamMemberDto.toString());
         if (this.isValid(teamMemberDto)) {
-            // ＤＢ登録エンティティを編集
-            TeamMemberEntity entity = this.makeTeamMemberEntity(teamMemberDto);
             // ＤＢに登録
-            TeamMemberDao dao = new TeamMemberDao(this);
-            int count = dao.addTeamMember(entity);
-            // 登録結果を確認
+            TeamMemberDao teamMemberDao = DbHelper.getInstance().getDb().teamMemberDao();
+            TeamMemberEntity entity = this.makeTeamMemberEntity(teamMemberDto);
+            entity.prepreForInsert();
             String message;
-            if (count == 1) {
+            try {
+                teamMemberDao.addTeamMember(entity);
                 // 登録後の一覧を更新するため再読み込み
                 this.memberViewModel.refreshTeamMembers();
                 message = getResources().getString(R.string.MSG_DB_INS_OK);
-            } else {
+            } catch (Exception ex) {
+                ex.printStackTrace();
                 message = getResources().getString(R.string.MSG_DB_INS_NG);
             }
             Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
@@ -150,17 +151,20 @@ public class MemberFragment extends Fragment
      * @return
      */
     private TeamMemberEntity makeTeamMemberEntity(TeamMemberDto teamMemberDto) {
-        return TeamMemberEntity.builder()
-            .memberId(teamMemberDto.getMemberId())
-            .name1(teamMemberDto.getName1())
-            .name2(teamMemberDto.getName2())
-            .sex(teamMemberDto.getSex())
-            .birthday(teamMemberDto.getBirthday().longValue())
-            .positionCategory(teamMemberDto.getPositionCategory())
-            .pitching(teamMemberDto.getPitching())
-            .batting(teamMemberDto.getBatting())
-            .status(teamMemberDto.getStatus())
-            .build();
+        TeamMemberEntity entity = new TeamMemberEntity();
+        entity.setMemberId(teamMemberDto.getMemberId());
+        entity.setName1(teamMemberDto.getName1());
+        entity.setName2(teamMemberDto.getName2());
+        entity.setSex(teamMemberDto.getSex());
+        entity.setBirthday(teamMemberDto.getBirthday());
+        entity.setPositionCategory(teamMemberDto.getPositionCategory());
+        entity.setPitching(teamMemberDto.getPitching());
+        entity.setBatting(teamMemberDto.getBatting());
+        entity.setStatus(teamMemberDto.getStatus());
+        entity.setNewDateTime(teamMemberDto.getNewDateTime());
+        entity.setUpdateDateTime(teamMemberDto.getUpdateDateTime());
+        entity.setVersionNo(teamMemberDto.getVersionNo());
+        return entity;
     }
 
     /**
@@ -172,11 +176,11 @@ public class MemberFragment extends Fragment
     public void updateTeamMember(TeamMemberDto teamMemberDto) {
         Log.d(TAG, "update info : " + teamMemberDto.toString());
         if (this.isValid(teamMemberDto)) {
-            // ＤＢ更新エンティティを編集
-            TeamMemberEntity entity = this.makeTeamMemberEntity(teamMemberDto);
             // ＤＢを更新
-            TeamMemberDao dao = new TeamMemberDao(this);
-            int count = dao.updateTeamMember(entity);
+            TeamMemberDao teamMemberDao = DbHelper.getInstance().getDb().teamMemberDao();
+            TeamMemberEntity entity = this.makeTeamMemberEntity(teamMemberDto);
+            entity.prepreForUpdate();
+            int count = teamMemberDao.updateTeamMember(entity);
             // 更新結果を確認
             String message;
             if (count == 1) {
@@ -202,7 +206,6 @@ public class MemberFragment extends Fragment
     private boolean isValid(TeamMemberDto dto) {
         if (StringUtils.isEmpty(dto.getName1())) return false;
         if (StringUtils.isEmpty(dto.getName2())) return false;
-        if (dto.getBirthday() == null) return false;
         return true;
     }
 
@@ -228,8 +231,8 @@ public class MemberFragment extends Fragment
         TeamMemberDto dto = (TeamMemberDto)obj;
 
         // ＤＢから削除
-        TeamMemberDao dao = new TeamMemberDao(this);
-        int count = dao.deleteTeamMember(dto.getMemberId());
+        TeamMemberDao teamMemberDao = DbHelper.getInstance().getDb().teamMemberDao();
+        int count = teamMemberDao.deleteTeamMember(dto.getMemberId());
         // 削除結果を確認
         int messageFmtId;
         if (count == 1) {

@@ -1,18 +1,15 @@
 package jp.yksolution.android.app.baseballscore01;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,10 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
-import java.util.List;
-
 import jp.yksolution.android.app.baseballscore01.ui.common.PopupMenuOperation;
-import jp.yksolution.android.app.baseballscore01.db.DbHelper;
 import jp.yksolution.android.app.baseballscore01.ui.member.MemberFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,11 +59,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        // DBの作成／更新を行う
-        DbHelper dbHelper = new DbHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.close();
     }
 
     @Override

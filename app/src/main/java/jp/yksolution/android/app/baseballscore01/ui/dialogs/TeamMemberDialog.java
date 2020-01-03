@@ -49,7 +49,7 @@ public class TeamMemberDialog extends DialogFragmentEx {
             ((ToggleButton)dialogView.findViewById(R.id.teamMemberSex)).setChecked(
                 (dto.getSex() == Const.SEX.GIRL) ? false : true);
             ((EditText)dialogView.findViewById(R.id.teamMemberBirthday)).setText(
-                DateTime.getDate(dto.getBirthday().longValue()));
+                DateTime.getDate(dto.getBirthday()));
 
             Resources res = this.getResources();
             ((Spinner)dialogView.findViewById(R.id.position_category)).setSelection(
@@ -155,7 +155,7 @@ public class TeamMemberDialog extends DialogFragmentEx {
             .name1(name1)
             .name2(name2)
             .sex(sex)
-            .birthday((birthDay == null) ? null : birthDay.getTime())
+            .birthday(birthDay.getTime())
             .positionCategory(Const.getPositionCategoryCodeByString(positionCategory))
             .pitching(Const.getPichingCodeByString(piching))
             .batting(Const.getBattingCodeByString(batting))

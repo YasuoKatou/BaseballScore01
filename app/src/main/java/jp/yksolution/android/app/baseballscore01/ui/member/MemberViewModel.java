@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.yksolution.android.app.baseballscore01.db.DbHelper;
 import jp.yksolution.android.app.baseballscore01.db.dao.TeamMemberDao;
 import jp.yksolution.android.app.baseballscore01.db.entity.TeamMemberEntity;
 
@@ -29,8 +30,8 @@ public class MemberViewModel extends ViewModel {
 
     private void loadTeamMembers() {
         List<TeamMemberDto> memberList = new ArrayList<>();
-        TeamMemberDao dao = new TeamMemberDao(this.mFragment);
-        for (TeamMemberEntity entity : dao.getTeamMemberList()) {
+        TeamMemberDao teamMemberDao = DbHelper.getInstance().getDb().teamMemberDao();
+        for (TeamMemberEntity entity : teamMemberDao.getTeamMemberList()) {
             memberList.add(TeamMemberDto.builder()
                 .memberId(entity.getMemberId())
                 .name1(entity.getName1())
@@ -41,6 +42,9 @@ public class MemberViewModel extends ViewModel {
                 .pitching(entity.getPitching())
                 .batting(entity.getBatting())
                 .status(entity.getStatus())
+                .newDateTime(entity.getNewDateTime())
+                .updateDateTime(entity.getUpdateDateTime())
+                .versionNo(entity.getVersionNo())
                 .build());
         }
 
