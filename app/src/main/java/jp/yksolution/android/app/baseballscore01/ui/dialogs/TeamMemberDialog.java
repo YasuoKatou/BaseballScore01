@@ -73,7 +73,7 @@ public class TeamMemberDialog extends DialogFragmentEx {
             .setView(dialogView)
             .setTitle(R.string.opt_menu_team_member_append)
             .setPositiveButton((this.updateMember == null) ? R.string.DLG_ENTRY : R.string.DLG_UPDATE, null)
-            .setNegativeButton(R.string.DLG_CANCEL, null)
+            .setNeutralButton(R.string.DLG_CLOSE, null)
             .create();
         if (this.updateMember != null) {
             String buttonText = getString(R.string.DLG_DELETE);

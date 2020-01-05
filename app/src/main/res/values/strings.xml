@@ -26,7 +26,7 @@
     <string name="DLG_ENTRY">登録</string>
     <string name="DLG_UPDATE">更新</string>
     <string name="DLG_DELETE">削除</string>
-    <string name="DLG_CANCEL">キャンセル</string>
+    <string name="DLG_CLOSE">閉じる</string>
 
     <string name="SEX_BOY">男子</string>
     <string name="SEX_GIRL">女子</string>
