@@ -47,10 +47,18 @@ public abstract class DialogFragmentEx extends DialogFragment {
     }
 
     /**
-     * 必須入力のメッセージを表示する.
+     * 書式入力（日付）のメッセージを表示する.
      * @param itemId
      */
     protected void showDateFormatMessage(int itemId) {
+        this.showToastMessage(itemId, R.string.MSG_INP_ERR_003);
+    }
+
+    /**
+     * 書式入力（時刻）のメッセージを表示する.
+     * @param itemId
+     */
+    protected void showTimeFormatMessage(int itemId) {
         this.showToastMessage(itemId, R.string.MSG_INP_ERR_003);
     }
 

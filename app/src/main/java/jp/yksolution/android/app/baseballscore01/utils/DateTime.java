@@ -52,4 +52,26 @@ public class DateTime {
             return false;
         }
     }
+
+    /**
+     * 日付の書式をチェックする.
+     * @param hourMinute
+     * @return
+     */
+    public static boolean isTimeFormat(String hourMinute) {
+        if (StringUtils.isEmpty(hourMinute)) return false;
+        int pos = hourMinute.indexOf(":");
+        if (pos == -1) return false;
+        try {
+            int hour = Integer.parseInt(hourMinute.substring(0, pos));
+            if ((hour < 0) || (hour > 23)) return false;
+            int minute = Integer.parseInt(hourMinute.substring(pos));
+            if ((minute < 0) || (minute > 59)) return false;
+            String val = String.format("%d:%d", hour, minute);
+            return val.equals(hourMinute);
+        } catch (Exception ex) {
+            Log.i(TAG, "Time Fromat Error (" + hourMinute + ")");
+            return false;
+        }
+    }
 }
