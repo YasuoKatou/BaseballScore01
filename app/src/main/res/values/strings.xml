@@ -11,12 +11,14 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>
+    <string name="menu_game_info">試合情報</string>
     <string name="menu_member">選手一覧</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
     <string name="opt_menu_team_member_append">選手登録</string>
     <string name="opt_menu_team_add_ob">卒団も表示</string>
+    <string name="opt_menu_new_game">試合情報登録</string>
 
     <string name="DLG_TITLE_CONF">確認</string>
     <string name="DLG_CONF_YES">はい</string>
@@ -24,9 +26,13 @@
     <string name="DLG_ENTRY">登録</string>
     <string name="DLG_UPDATE">更新</string>
     <string name="DLG_DELETE">削除</string>
+    <string name="DLG_CANCEL">キャンセル</string>
 
     <string name="SEX_BOY">男子</string>
     <string name="SEX_GIRL">女子</string>
+
+    <string name="GAME_PLAY_TOP">先攻</string>
+    <string name="GAME_PLAY_BOTTOM">後攻</string>
 
     <string-array name="pitching_type_list">
         <item>右投げ</item>
@@ -53,6 +59,20 @@
         <item>中退</item>
     </string-array>
 
+    <!-- 試合情報ダイアログ -->
+    <string name="dlg_view_002_game_name">試合名</string>
+    <string name="dlg_view_002_game_date">開催日</string>
+    <string name="dlg_view_002_game_start_time">開始</string>
+    <string name="dlg_view_002_game_end_time">終了</string>
+    <string name="dlg_view_002_game_place">場所</string>
+    <string name="dlg_view_002_game_competition_team_name">対戦相手</string>
+    <string name="dlg_view_002_game_umpire1">主審</string>
+    <string name="dlg_view_002_game_umpire2">審判２</string>
+    <string name="dlg_view_002_game_umpire3">審判３</string>
+    <string name="dlg_view_002_game_umpire4">審判４</string>
+    <string name="dlg_view_002_game_umpire5">審判５</string>
+    <string name="dlg_view_002_game_umpire6">審判６</string>
+
     <!-- 選手登録ダイアログ -->
     <string name="dlg_view_001_name1">選手名（姓）</string>
     <string name="dlg_view_001_name2">選手名（名）</string>
@@ -65,6 +85,9 @@
 
     <!-- メッセージ -->
     <string name="MSG_INP_ERR_001">入力にエラーがあります</string>
+    <string name="MSG_INP_ERR_002">【%s】は必須入力です</string>
+    <string name="MSG_INP_ERR_003">【%s】を正しく入力して下さい</string>
+
     <string name="MSG_DB_INS_OK">登録しました.</string>
     <string name="MSG_DB_INS_NG">登録に失敗しました.</string>
     <string name="MSG_DB_UPD_OK">更新しました.</string>

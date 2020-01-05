@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_member, R.id.nav_share, R.id.nav_send)
-                .setDrawerLayout(drawer)
-                .build();
+             R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_tools,
+             R.id.nav_game_info, R.id.nav_member, R.id.nav_share, R.id.nav_send)
+             .setDrawerLayout(drawer)
+             .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = this.getActiveFragment();
             // TODO 動的に処理したい！！
             menu.setGroupVisible(R.id.optMenuTeamMember, false);
+            menu.setGroupVisible(R.id.optMenuGameInfo, false);
 //            menu.setGroupVisible(R.id.optMenuOthers, false);      // 最低１つは表示しないとアイコンが消える
             // 各フラグメントで使用するメニュを表示する
             if (fragment instanceof PopupMenuOperation) {

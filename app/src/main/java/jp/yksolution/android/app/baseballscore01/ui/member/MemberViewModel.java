@@ -12,6 +12,10 @@ import jp.yksolution.android.app.baseballscore01.db.DbHelper;
 import jp.yksolution.android.app.baseballscore01.db.dao.TeamMemberDao;
 import jp.yksolution.android.app.baseballscore01.db.entity.TeamMemberEntity;
 
+/**
+ * チームメンバービューのデータモデル.
+ * @author Y.Katou (YKSolution)
+ */
 public class MemberViewModel extends ViewModel {
     private MutableLiveData<List<TeamMemberDto>> mTeamMembers = null;
     private Fragment mFragment = null;

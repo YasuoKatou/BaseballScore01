@@ -11,6 +11,10 @@ import java.util.List;
 
 import jp.yksolution.android.app.baseballscore01.R;
 
+/**
+ * チームメンバー一覧表示アダプター.
+ * @author Y.Katou (YKSolution)
+ */
 public class MemberListAdapter extends BaseAdapter {
     private LayoutInflater mLayoutInflater = null;
     private List<TeamMemberDto> mTeamMemberList = null;
@@ -44,7 +48,7 @@ public class MemberListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int index, View convertView, ViewGroup parent) {
-        convertView = this.mLayoutInflater.inflate(R.layout.team_member_list_row,parent,false);
+        convertView = this.mLayoutInflater.inflate(R.layout.team_member_list_row, parent,false);
 
         TeamMemberDto entity = (TeamMemberDto)this.getItem(index);
         ((TextView)convertView.findViewById(R.id.memberId)).setText(Long.toString(entity.getMemberId()));

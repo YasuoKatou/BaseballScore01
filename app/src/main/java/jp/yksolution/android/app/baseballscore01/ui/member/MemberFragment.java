@@ -29,6 +29,10 @@ import jp.yksolution.android.app.baseballscore01.ui.common.PopupMenuOperation;
 import jp.yksolution.android.app.baseballscore01.ui.dialogs.ConfirmationDialog;
 import jp.yksolution.android.app.baseballscore01.ui.dialogs.TeamMemberDialog;
 
+/**
+ * チームメンバーフラグメント.
+ * @author Y.Katou (YKSolution)
+ */
 public class MemberFragment extends Fragment
     implements PopupMenuOperation, TeamMemberDialog.NoticeDialogListener,
         ConfirmationDialog.NoticeDialogListener {
@@ -38,6 +42,7 @@ public class MemberFragment extends Fragment
     private ListView listView;
     private MemberListAdapter adapter;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         this.memberViewModel =
@@ -132,10 +137,10 @@ public class MemberFragment extends Fragment
                 teamMemberDao.addTeamMember(entity);
                 // 登録後の一覧を更新するため再読み込み
                 this.memberViewModel.refreshTeamMembers();
-                message = getResources().getString(R.string.MSG_DB_INS_OK);
+                message = this.getResources().getString(R.string.MSG_DB_INS_OK);
             } catch (Exception ex) {
                 ex.printStackTrace();
-                message = getResources().getString(R.string.MSG_DB_INS_NG);
+                message = this.getResources().getString(R.string.MSG_DB_INS_NG);
             }
             Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
         } else {

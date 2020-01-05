@@ -1,0 +1,128 @@
+package jp.yksolution.android.app.baseballscore01.ui.game.info;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import java.util.List;
+
+import jp.yksolution.android.app.baseballscore01.R;
+import jp.yksolution.android.app.baseballscore01.ui.common.PopupMenuOperation;
+import jp.yksolution.android.app.baseballscore01.ui.dialogs.GameInfoDialog;
+
+/**
+ * 試合情報フラグメント.
+ * @author Y.Katou (YKSolution)
+ * @since 2020/01/04
+ */
+public class GameInfoFragment extends Fragment
+        implements PopupMenuOperation, GameInfoDialog.NoticeDialogListener {
+    private static final String TAG = GameInfoFragment.class.getSimpleName();
+
+    private GameInfoViewModel gameInfoViewModel;
+    private ListView listView;
+    private GameInfoListAdapter adapter;
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        this.gameInfoViewModel =
+                ViewModelProviders.of(this).get(GameInfoViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_member, container, false);
+
+        this.listView = (ListView) root.findViewById(R.id.teamMemberList);
+        this.listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            /**
+             * ロングタップで試合を選択し、更新画面を開く
+             * @param parent
+             * @param view
+             * @param position 一覧の行インデックス
+             * @param id 試合ID
+             * @return
+             */
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent,View view, int position, long id) {
+//                showUpdateDialog(position);
+                return true;
+            }
+        });
+        this.adapter = new GameInfoListAdapter(this.getContext());
+        this.gameInfoViewModel.getTeamMembers(this).observe(this, new Observer<List<GameInfoDto>>() {
+            @Override
+            public void onChanged(@Nullable List<GameInfoDto> list) {
+                adapter.setGameInfoList(list);
+                listView.setAdapter(adapter);
+            }
+        });
+        setHasOptionsMenu(true);        // フラグメントで onOptionsItemSelected を受ける設定
+        return root;
+    }
+
+    /**
+     * for PopupMenuOperation
+     * @param menu
+     */
+    @Override
+    public void setupMenu(Menu menu) {
+        menu.setGroupVisible(R.id.optMenuGameInfo, true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.newGameInfo:
+                // 選手登録メニュー選択
+                this.addGameInfo();
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
+     * ゲーム情報を登録するダイアログを開く
+     */
+    private void addGameInfo() {
+        GameInfoDialog dlg = new GameInfoDialog();
+        dlg.show(getActivity().getSupportFragmentManager(), dlg.getTag());
+    }
+
+    /**
+     * ゲーム情報登録.<br/>
+     * for GameInfoDialog.NoticeDialogListener
+     * @param gameInfoDto
+     */
+    public void addGameInfo(GameInfoDto gameInfoDto) {
+        // TODO 登録処理
+    }
+
+    /**
+     * ゲーム情報更新.<br/>
+     * for GameInfoDialog.NoticeDialogListener
+     * @param gameInfoDto
+     */
+    public void updateGameInfo(GameInfoDto gameInfoDto) {
+        // TODO 更新処理
+    }
+
+    /**
+     * ゲーム情報削除.<br/>
+     * for GameInfoDialog.NoticeDialogListener
+     * @param gameInfoDto
+     */
+    public void deleteGameInfo(GameInfoDto gameInfoDto) {
+        // TODO 削除処理
+    }
+}

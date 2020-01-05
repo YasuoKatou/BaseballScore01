@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,9 +14,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.text.SimpleDateFormat;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Date;
 
 import jp.yksolution.android.app.baseballscore01.R;
@@ -23,6 +26,10 @@ import jp.yksolution.android.app.baseballscore01.ui.common.Const;
 import jp.yksolution.android.app.baseballscore01.ui.member.TeamMemberDto;
 import jp.yksolution.android.app.baseballscore01.utils.DateTime;
 
+/**
+ * チームメンバー登録／更新ダイアログ
+ * @author Y.Katou (YKSolution)
+ */
 public class TeamMemberDialog extends DialogFragmentEx {
     private static final String TAG = TeamMemberDialog.class.getSimpleName();
 
@@ -33,7 +40,7 @@ public class TeamMemberDialog extends DialogFragmentEx {
      */
     private TeamMemberDto updateMember = null;
     public TeamMemberDialog(TeamMemberDto updateMember) {
-        super();
+        this();
         this.updateMember = updateMember;
     }
 
@@ -65,19 +72,8 @@ public class TeamMemberDialog extends DialogFragmentEx {
         AlertDialog dlg = new AlertDialog.Builder(activity)
             .setView(dialogView)
             .setTitle(R.string.opt_menu_team_member_append)
-            .setPositiveButton((this.updateMember == null) ? R.string.DLG_ENTRY : R.string.DLG_UPDATE
-                , new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (updateMember == null) {
-                            // 選手情報登録
-                            addTeamMember(dialogView);
-                        } else {
-                            // 選手情報更新
-                            updateTeamMember(dialogView);
-                        }
-                    }
-                })
+            .setPositiveButton((this.updateMember == null) ? R.string.DLG_ENTRY : R.string.DLG_UPDATE, null)
+            .setNegativeButton(R.string.DLG_CANCEL, null)
             .create();
         if (this.updateMember != null) {
             String buttonText = getString(R.string.DLG_DELETE);
@@ -91,7 +87,83 @@ public class TeamMemberDialog extends DialogFragmentEx {
                 }
             );
         }
+        dlg.setCanceledOnTouchOutside(false);       // ダイアログの外側をタップしてもダイアログを消さない
         return dlg;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // super.onStart()の後でないと、getButton(...)でnullが返ってくる
+        final AlertDialog dialog = (AlertDialog)this.getDialog();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
+            new View.OnClickListener() {
+                 @Override
+                 public void onClick(View buttonView) {
+                     if (execute(dialog)) {
+                         // 登録／更新処理が正常に終了した場合、ダイアログを閉じる
+                         dialog.dismiss();
+                     }
+                 }
+            }
+        );
+    }
+
+    /**
+     * 選手情報の登録／更新を行う.
+     * @param dialog
+     */
+    private boolean execute(Dialog dialog) {
+        if (!this.isValidInput(dialog)) return false;
+
+        if (this.updateMember == null) {
+            // 選手情報登録
+            addTeamMember(dialog);
+        } else {
+            // 選手情報更新
+            updateTeamMember(dialog);
+        }
+        return true;
+    }
+
+    /**
+     * 入力データの妥当性を確認する.
+     * @param dialog
+     * @return
+     */
+    private boolean isValidInput(Dialog dialog) {
+        String strVal;
+        // ---------------------------
+        // 必須入力チェック
+        // ---------------------------
+        // 「選手名（姓）」
+        strVal = ((TextView)dialog.findViewById(R.id.teamMemberName1)).getText().toString();
+        if (StringUtils.isEmpty(strVal)) {
+            super.showRequiredInputMessage(R.string.dlg_view_001_name1);
+            return false;
+        }
+        // 「選手名（名）」
+        strVal = ((TextView)dialog.findViewById(R.id.teamMemberName2)).getText().toString();
+        if (StringUtils.isEmpty(strVal)) {
+            super.showRequiredInputMessage(R.string.dlg_view_001_name2);
+            return false;
+        }
+        // 「誕生日」
+        String birthday = ((TextView)dialog.findViewById(R.id.teamMemberBirthday)).getText().toString();
+        if (StringUtils.isEmpty(birthday)) {
+            super.showRequiredInputMessage(R.string.dlg_view_001_birthday);
+            return false;
+        }
+
+        // ---------------------------
+        // 日付入力チェック
+        // ---------------------------
+        if (!DateTime.isDateFormat(birthday)) {
+            super.showDateFormatMessage(R.string.dlg_view_001_birthday);
+            return false;
+        }
+        return true;
     }
 
     public interface NoticeDialogListener extends NoticeDialogListenerBase {
@@ -120,34 +192,35 @@ public class TeamMemberDialog extends DialogFragmentEx {
     }
 
     /**
-     * チームのメンバーを登録する
-     * @param dialogView
+     * チームのメンバーを登録する.
+     * @param dialog
      */
-    private void addTeamMember(View dialogView) {
-        mNoticeDialogListener.addTeamMember(this.makeTeamMemberDto(dialogView));
+    private void addTeamMember(Dialog dialog) {
+        mNoticeDialogListener.addTeamMember(this.makeTeamMemberDto(dialog));
     }
 
     /**
      * ダイアログビューから入力データ（選手情報）を取得する.
-     * @param dialogView
+     * @param dialog
      * @return
      */
-    private TeamMemberDto makeTeamMemberDto(View dialogView) {
-        String name1 = ((TextView)dialogView.findViewById(R.id.teamMemberName1)).getText().toString();
-        String name2 = ((TextView)dialogView.findViewById(R.id.teamMemberName2)).getText().toString();
-        int sex = (((ToggleButton)dialogView.findViewById(R.id.teamMemberSex)).isChecked()) ? Const.SEX.BOY : Const.SEX.GIRL;
-        String strBirthday = ((EditText)dialogView.findViewById(R.id.teamMemberBirthday)).getText().toString();
-        String status = (String)((Spinner)dialogView.findViewById(R.id.memberStatus)).getSelectedItem();
+    private TeamMemberDto makeTeamMemberDto(Dialog dialog) {
+        String name1 = ((TextView)dialog.findViewById(R.id.teamMemberName1)).getText().toString();
+        String name2 = ((TextView)dialog.findViewById(R.id.teamMemberName2)).getText().toString();
+        int sex = (((ToggleButton)dialog.findViewById(R.id.teamMemberSex)).isChecked()) ? Const.SEX.BOY : Const.SEX.GIRL;
+        String strBirthday = ((EditText)dialog.findViewById(R.id.teamMemberBirthday)).getText().toString();
+        String status = (String)((Spinner)dialog.findViewById(R.id.memberStatus)).getSelectedItem();
 
-        String positionCategory = (String)((Spinner)dialogView.findViewById(R.id.position_category)).getSelectedItem();
-        String piching = (String)((Spinner)dialogView.findViewById(R.id.pitching)).getSelectedItem();
-        String batting = (String)((Spinner)dialogView.findViewById(R.id.batting)).getSelectedItem();
+        String positionCategory = (String)((Spinner)dialog.findViewById(R.id.position_category)).getSelectedItem();
+        String piching = (String)((Spinner)dialog.findViewById(R.id.pitching)).getSelectedItem();
+        String batting = (String)((Spinner)dialog.findViewById(R.id.batting)).getSelectedItem();
 
         Date birthDay;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/d");
             birthDay = sdf.parse(strBirthday);
         } catch (Exception ex) {
+            // 入力チェックを追加したので、処理不要！！（念のため残します）
             birthDay = null;
             Log.e(TAG, "日付エラー : " + strBirthday);
         }
@@ -164,11 +237,11 @@ public class TeamMemberDialog extends DialogFragmentEx {
     }
 
     /**
-     * チームのメンバー情報を更新する
-     * @param dialogView
+     * チームのメンバー情報を更新する.
+     * @param dialog
      */
-    private void updateTeamMember(View dialogView) {
-        TeamMemberDto dto = this.makeTeamMemberDto(dialogView);
+    private void updateTeamMember(Dialog dialog) {
+        TeamMemberDto dto = this.makeTeamMemberDto(dialog);
         dto.setMemberId(this.updateMember.getMemberId());
         mNoticeDialogListener.updateTeamMember(dto);
     }

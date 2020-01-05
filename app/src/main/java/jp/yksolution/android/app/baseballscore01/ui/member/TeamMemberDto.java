@@ -11,6 +11,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * チームメンバーDto.
+ * @author Y.Katou (YKSolution)
+ */
 @Builder
 public class TeamMemberDto {
     /** メンバーID. */

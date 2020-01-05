@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6d4ec968496aa085f062746bdf582648",
+    "identityHash": "dc8bcc0bbd7b78661eec7fe0857c30c7",
     "entities": [
       {
         "tableName": "team_member",
@@ -101,12 +101,138 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "game_info",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`game_id` INTEGER PRIMARY KEY AUTOINCREMENT, `game_name` TEXT NOT NULL, `place` TEXT, `game_date` INTEGER NOT NULL, `start_time` INTEGER, `end_time` INTEGER, `top_bottom` INTEGER NOT NULL, `competition_team_name` TEXT, `umpire1` TEXT, `umpire2` TEXT, `umpire3` TEXT, `umpire4` TEXT, `umpire5` TEXT, `umpire6` TEXT, `new_date_time` INTEGER NOT NULL, `upd_date_time` INTEGER NOT NULL, `verno` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "gameId",
+            "columnName": "game_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gameName",
+            "columnName": "game_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "place",
+            "columnName": "place",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gameDate",
+            "columnName": "game_date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startTime",
+            "columnName": "start_time",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endTime",
+            "columnName": "end_time",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "topBottom",
+            "columnName": "top_bottom",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "competitionTeamName",
+            "columnName": "competition_team_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire1",
+            "columnName": "umpire1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire2",
+            "columnName": "umpire2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire3",
+            "columnName": "umpire3",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire4",
+            "columnName": "umpire4",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire5",
+            "columnName": "umpire5",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire6",
+            "columnName": "umpire6",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "newDateTime",
+            "columnName": "new_date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updateDateTime",
+            "columnName": "upd_date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionNo",
+            "columnName": "verno",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "game_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_game_info_game_date_start_time",
+            "unique": false,
+            "columnNames": [
+              "game_date",
+              "start_time"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_game_info_game_date_start_time` ON `${TABLE_NAME}` (`game_date`, `start_time`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6d4ec968496aa085f062746bdf582648')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dc8bcc0bbd7b78661eec7fe0857c30c7')"
     ]
   }
 }
