@@ -7,6 +7,7 @@ import android.util.Log;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 日時に関するユーティリティ.
@@ -48,13 +49,13 @@ public class DateTime {
             sdf.parse(date);
             return true;
         } catch (Exception ex) {
-            Log.i(TAG, "Date Fromat Error (" + date + ")");
+            Log.i(TAG, "Date Fromat Error at isDateFormat method (" + date + ")");
             return false;
         }
     }
 
     /**
-     * 日付の書式をチェックする.
+     * 時刻の書式(h:mm)をチェックする.
      * @param hourMinute
      * @return
      */
@@ -67,11 +68,44 @@ public class DateTime {
             if ((hour < 0) || (hour > 23)) return false;
             int minute = Integer.parseInt(hourMinute.substring(pos));
             if ((minute < 0) || (minute > 59)) return false;
-            String val = String.format("%d:%d", hour, minute);
+            String val = String.format("%d:%02d", hour, minute);
             return val.equals(hourMinute);
         } catch (Exception ex) {
-            Log.i(TAG, "Time Fromat Error (" + hourMinute + ")");
+            Log.i(TAG, "Time Fromat Error at isTimeFormat (" + hourMinute + ")");
             return false;
+        }
+    }
+
+    /**
+     * 日付変換（文字列 → long値）
+     * @param strDate
+     * @return
+     */
+    public static long convertStringDateToLong(String strDate) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/d");
+            Date date = sdf.parse(strDate);
+            return date.getTime();
+        } catch (Exception ex) {
+            Log.i(TAG, "Date Fromat Error at convertStringDateToLong method (" + strDate + ")");
+            return 0L;
+        }
+    }
+
+    /**
+     * 時刻変換（文字列 → long値）
+     * @param hourMinute
+     * @return
+     */
+    public static long convertStringTimeToLong(String hourMinute) {
+        int pos = hourMinute.indexOf(":");
+        try {
+            long hour = Long.parseLong(hourMinute.substring(0, pos));
+            long minute = Long.parseLong(hourMinute.substring(pos));
+            return ((hour * 100) + minute);
+        } catch (Exception ex) {
+            Log.i(TAG, "Time Fromat Error at isTimeFormat (" + hourMinute + ")");
+            return 0;
         }
     }
 }

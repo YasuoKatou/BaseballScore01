@@ -8,11 +8,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import org.apache.commons.lang3.StringUtils;
 
 import jp.yksolution.android.app.baseballscore01.R;
+import jp.yksolution.android.app.baseballscore01.ui.common.Const;
 import jp.yksolution.android.app.baseballscore01.ui.game.info.GameInfoDto;
 import jp.yksolution.android.app.baseballscore01.utils.DateTime;
 
@@ -186,8 +189,36 @@ public class GameInfoDialog extends DialogFragmentEx {
      * @return
      */
     private GameInfoDto makeGameInfoDto(Dialog dialog) {
-        // TODO 作成
-        return null;
+        String gameDate = ((EditText)dialog.findViewById(R.id.gameInfoDate)).getText().toString();
+        String gameName = ((EditText)dialog.findViewById(R.id.gameInfoName)).getText().toString();
+        String startTime = ((EditText)dialog.findViewById(R.id.gameInfoStartTime)).getText().toString();
+        String endTime   = ((EditText)dialog.findViewById(R.id.gameInfoEndTime)).getText().toString();
+        int topBottom = (((ToggleButton)dialog.findViewById(R.id.gameInfoTopBottom)).isChecked()) ?
+            Const.TOP_BOTTOM.BOTTOM : Const.TOP_BOTTOM.TOP;
+        String gamePlace = ((EditText)dialog.findViewById(R.id.gameInfoPlace)).getText().toString();
+        String competitionTeamName = ((EditText)dialog.findViewById(R.id.gameInfoCompetitionTeamName)).getText().toString();
+        String umpire1 = ((EditText)dialog.findViewById(R.id.gameInfoUmpire1)).getText().toString();
+        String umpire2 = ((EditText)dialog.findViewById(R.id.gameInfoUmpire2)).getText().toString();
+        String umpire3 = ((EditText)dialog.findViewById(R.id.gameInfoUmpire3)).getText().toString();
+        String umpire4 = ((EditText)dialog.findViewById(R.id.gameInfoUmpire4)).getText().toString();
+        String umpire5 = ((EditText)dialog.findViewById(R.id.gameInfoUmpire5)).getText().toString();
+        String umpire6 = ((EditText)dialog.findViewById(R.id.gameInfoUmpire6)).getText().toString();
+
+        return GameInfoDto.builder()
+            .gameName(gameName)
+            .place(gamePlace)
+            .startTime(StringUtils.isEmpty(startTime) ? null : DateTime.convertStringTimeToLong(startTime))
+            .endTime(StringUtils.isEmpty(endTime) ? null : DateTime.convertStringTimeToLong(endTime))
+            .topBottom(topBottom)
+            .gameDate(DateTime.convertStringDateToLong(gameDate))
+            .competitionTeamName(StringUtils.isEmpty(competitionTeamName) ? null : competitionTeamName)
+            .umpire1(StringUtils.isEmpty(umpire1) ? null : umpire1)
+            .umpire2(StringUtils.isEmpty(umpire2) ? null : umpire2)
+            .umpire3(StringUtils.isEmpty(umpire3) ? null : umpire3)
+            .umpire4(StringUtils.isEmpty(umpire4) ? null : umpire4)
+            .umpire5(StringUtils.isEmpty(umpire5) ? null : umpire5)
+            .umpire6(StringUtils.isEmpty(umpire6) ? null : umpire6)
+            .build();
     }
 
     /**

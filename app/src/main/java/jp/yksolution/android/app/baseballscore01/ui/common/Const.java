@@ -14,6 +14,15 @@ import jp.yksolution.android.app.baseballscore01.R;
  */
 public class Const {
     /**
+     * 先攻／後攻
+     */
+    public static class TOP_BOTTOM {
+        /** 先攻. */
+        public static final int TOP = 1;
+        /** 後攻. */
+        public static final int BOTTOM = 1;
+    }
+    /**
      * 性別.
      */
     public static class SEX {
