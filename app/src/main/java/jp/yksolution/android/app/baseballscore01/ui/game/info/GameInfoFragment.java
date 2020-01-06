@@ -1,6 +1,7 @@
 package jp.yksolution.android.app.baseballscore01.ui.game.info;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +20,9 @@ import androidx.lifecycle.ViewModelProviders;
 import java.util.List;
 
 import jp.yksolution.android.app.baseballscore01.R;
+import jp.yksolution.android.app.baseballscore01.db.DbHelper;
+import jp.yksolution.android.app.baseballscore01.db.dao.GameInfoDao;
+import jp.yksolution.android.app.baseballscore01.db.entity.GameInfoEntity;
 import jp.yksolution.android.app.baseballscore01.ui.common.PopupMenuOperation;
 import jp.yksolution.android.app.baseballscore01.ui.dialogs.GameInfoDialog;
 
@@ -57,7 +62,7 @@ public class GameInfoFragment extends Fragment
             }
         });
         this.adapter = new GameInfoListAdapter(this.getContext());
-        this.gameInfoViewModel.getTeamMembers(this).observe(this, new Observer<List<GameInfoDto>>() {
+        this.gameInfoViewModel.getGameInfos(this).observe(this, new Observer<List<GameInfoDto>>() {
             @Override
             public void onChanged(@Nullable List<GameInfoDto> list) {
                 adapter.setGameInfoList(list);
@@ -105,7 +110,50 @@ public class GameInfoFragment extends Fragment
      * @param gameInfoDto
      */
     public void addGameInfo(GameInfoDto gameInfoDto) {
-        // TODO 登録処理
+        Log.d(TAG, "append info : " + gameInfoDto.toString());
+
+        // ＤＢに登録
+        GameInfoDao gameInfoDao = DbHelper.getInstance().getDb().gameInfoDao();
+        GameInfoEntity entity = this.makeGameInfoEntity(gameInfoDto);
+        entity.prepreForInsert();
+        String message;
+        try {
+                gameInfoDao.addGameInfo(entity);
+                // 登録後の一覧を更新するため再読み込み
+                this.gameInfoViewModel.refreshGameInfos();
+                message = this.getResources().getString(R.string.MSG_DB_INS_OK);
+        } catch (Exception ex) {
+                ex.printStackTrace();
+                message = this.getResources().getString(R.string.MSG_DB_INS_NG);
+        }
+        Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * ＤＢに登録／更新する試合情報エンティティを編集する.
+     * @param gameInfoDto
+     * @return
+     */
+    private GameInfoEntity makeGameInfoEntity(GameInfoDto gameInfoDto) {
+        GameInfoEntity entity = new GameInfoEntity();
+        entity.setGameId(gameInfoDto.getGameId());
+        entity.setGameName(gameInfoDto.getGameName());
+        entity.setPlace(gameInfoDto.getPlace());
+        entity.setStartTime(gameInfoDto.getStartTime());
+        entity.setEndTime(gameInfoDto.getEndTime());
+        entity.setTopBottom(gameInfoDto.getTopBottom());
+        entity.setGameDate(gameInfoDto.getGameDate());
+        entity.setCompetitionTeamName(gameInfoDto.getCompetitionTeamName());
+        entity.setUmpire1(gameInfoDto.getUmpire1());
+        entity.setUmpire2(gameInfoDto.getUmpire2());
+        entity.setUmpire3(gameInfoDto.getUmpire3());
+        entity.setUmpire4(gameInfoDto.getUmpire4());
+        entity.setUmpire5(gameInfoDto.getUmpire5());
+        entity.setUmpire6(gameInfoDto.getUmpire6());
+        entity.setNewDateTime(gameInfoDto.getNewDateTime());
+        entity.setUpdateDateTime(gameInfoDto.getUpdateDateTime());
+        entity.setVersionNo(gameInfoDto.getVersionNo());
+        return entity;
     }
 
     /**

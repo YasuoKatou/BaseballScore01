@@ -92,10 +92,10 @@ public class GameInfoDialog extends DialogFragmentEx {
 
         if (this.updateGameInfo == null) {
             // 試合情報登録
-            addGameInfo(dialog);
+            this.addGameInfo(dialog);
         } else {
             // 試合情報更新
-            updateGameInfo(dialog);
+            this.updateGameInfo(dialog);
         }
         return true;
     }

@@ -20,7 +20,7 @@ import jp.yksolution.android.app.baseballscore01.db.entity.GameInfoEntity;
 public class GameInfoViewModel extends ViewModel {
     private MutableLiveData<List<GameInfoDto>> mGameInfos =null;
     private Fragment mFragment = null;
-    public LiveData<List<GameInfoDto>> getTeamMembers(Fragment fragment) {
+    public LiveData<List<GameInfoDto>> getGameInfos(Fragment fragment) {
         this.mFragment = fragment;
         if (this.mGameInfos == null) {
             this.mGameInfos = new MutableLiveData<List<GameInfoDto>>();
@@ -29,7 +29,7 @@ public class GameInfoViewModel extends ViewModel {
         return this.mGameInfos;
     }
 
-    public void refreshTeamMembers() {
+    public void refreshGameInfos() {
         this.loadGameInfos();
     }
 

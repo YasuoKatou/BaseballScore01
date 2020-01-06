@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 import jp.yksolution.android.app.baseballscore01.R;
@@ -55,7 +57,7 @@ public class GameInfoListAdapter extends BaseAdapter {
         GameInfoDto entity = (GameInfoDto)this.getItem(index);
         ((TextView)convertView.findViewById(R.id.gameDateTime)).setText(DateTime.getDateTime(entity.getStartTime()));
         ((TextView)convertView.findViewById(R.id.gameName)).setText(entity.getGameName());
-        ((TextView)convertView.findViewById(R.id.gamePlace)).setText(entity.getPlace());
+        ((TextView)convertView.findViewById(R.id.gamePlace)).setText(StringUtils.isEmpty(entity.getPlace()) ? "" : entity.getPlace());
 
         return convertView;
     }

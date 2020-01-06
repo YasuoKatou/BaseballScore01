@@ -119,10 +119,10 @@ public class TeamMemberDialog extends DialogFragmentEx {
 
         if (this.updateMember == null) {
             // 選手情報登録
-            addTeamMember(dialog);
+            this.addTeamMember(dialog);
         } else {
             // 選手情報更新
-            updateTeamMember(dialog);
+            this.updateTeamMember(dialog);
         }
         return true;
     }
