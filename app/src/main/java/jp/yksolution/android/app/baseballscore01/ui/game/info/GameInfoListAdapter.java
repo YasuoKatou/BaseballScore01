@@ -55,7 +55,7 @@ public class GameInfoListAdapter extends BaseAdapter {
         convertView = this.mLayoutInflater.inflate(R.layout.game_info_list_row, parent, false);
 
         GameInfoDto entity = (GameInfoDto)this.getItem(index);
-        ((TextView)convertView.findViewById(R.id.gameDateTime)).setText(DateTime.getDateTime(entity.getStartTime()));
+        ((TextView)convertView.findViewById(R.id.gameDateTime)).setText(DateTime.getDate(entity.getGameDate()));
         ((TextView)convertView.findViewById(R.id.gameName)).setText(entity.getGameName());
         ((TextView)convertView.findViewById(R.id.gamePlace)).setText(StringUtils.isEmpty(entity.getPlace()) ? "" : entity.getPlace());
 

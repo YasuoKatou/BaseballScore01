@@ -51,8 +51,8 @@ public class TeamMemberDialog extends DialogFragmentEx {
 
         if (this.updateMember != null) {
             TeamMemberDto dto = this.updateMember;
-            ((TextView)dialogView.findViewById(R.id.teamMemberName1)).setText(dto.getName1());
-            ((TextView)dialogView.findViewById(R.id.teamMemberName2)).setText(dto.getName2());
+            ((EditText)dialogView.findViewById(R.id.teamMemberName1)).setText(dto.getName1());
+            ((EditText)dialogView.findViewById(R.id.teamMemberName2)).setText(dto.getName2());
             ((ToggleButton)dialogView.findViewById(R.id.teamMemberSex)).setChecked(
                 (dto.getSex() == Const.SEX.GIRL) ? false : true);
             ((EditText)dialogView.findViewById(R.id.teamMemberBirthday)).setText(

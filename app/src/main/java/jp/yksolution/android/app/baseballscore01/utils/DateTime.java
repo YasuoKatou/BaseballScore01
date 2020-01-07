@@ -37,6 +37,11 @@ public class DateTime {
         return DateFormat.format("yyyy/M/d kk:mm", dateTime).toString();
     }
 
+    public static String getTime(Long time) {
+        if (time == null) return "";
+        return String.format("%d:%02d", time / 100, time % 100);
+    }
+
     /**
      * 日付の書式をチェックする.
      * @param date

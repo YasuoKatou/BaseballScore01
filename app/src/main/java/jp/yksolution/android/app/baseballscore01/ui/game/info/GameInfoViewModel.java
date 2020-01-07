@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,19 +41,19 @@ public class GameInfoViewModel extends ViewModel {
         for (GameInfoEntity entity : gameInfoDao.getGameInfoList()) {
             memberList.add(GameInfoDto.builder()
                 .gameId(entity.getGameId())
-                .gameName(entity.getGameName())
-                .place(entity.getPlace())
+                .gameName(StringUtils.isEmpty(entity.getGameName()) ? "" : entity.getGameName())
+                .place(StringUtils.isEmpty(entity.getPlace()) ? "" : entity.getPlace())
                 .gameDate(entity.getGameDate())
                 .startTime(entity.getStartTime())
                 .endTime(entity.getEndTime())
                 .topBottom(entity.getTopBottom())
-                .competitionTeamName(entity.getCompetitionTeamName())
-                .umpire1(entity.getUmpire1())
-                .umpire2(entity.getUmpire2())
-                .umpire3(entity.getUmpire3())
-                .umpire4(entity.getUmpire4())
-                .umpire5(entity.getUmpire5())
-                .umpire6(entity.getUmpire6())
+                .competitionTeamName(StringUtils.isEmpty(entity.getCompetitionTeamName()) ? "" : entity.getCompetitionTeamName())
+                .umpire1(StringUtils.isEmpty(entity.getUmpire1()) ? "" : entity.getUmpire1())
+                .umpire2(StringUtils.isEmpty(entity.getUmpire2()) ? "" : entity.getUmpire2())
+                .umpire3(StringUtils.isEmpty(entity.getUmpire3()) ? "" : entity.getUmpire3())
+                .umpire4(StringUtils.isEmpty(entity.getUmpire4()) ? "" : entity.getUmpire4())
+                .umpire5(StringUtils.isEmpty(entity.getUmpire5()) ? "" : entity.getUmpire5())
+                .umpire6(StringUtils.isEmpty(entity.getUmpire6()) ? "" : entity.getUmpire6())
                 .newDateTime(entity.getNewDateTime())
                 .updateDateTime(entity.getUpdateDateTime())
                 .versionNo(entity.getVersionNo())

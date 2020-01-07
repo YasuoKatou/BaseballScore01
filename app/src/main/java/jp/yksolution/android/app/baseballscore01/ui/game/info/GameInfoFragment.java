@@ -57,7 +57,7 @@ public class GameInfoFragment extends Fragment
              */
             @Override
             public boolean onItemLongClick(AdapterView<?> parent,View view, int position, long id) {
-//                showUpdateDialog(position);
+                showUpdateDialog(position);
                 return true;
             }
         });
@@ -86,7 +86,7 @@ public class GameInfoFragment extends Fragment
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.newGameInfo:
-                // 選手登録メニュー選択
+                // ゲーム情報登録メニュー選択
                 this.addGameInfo();
                 return true;
             default:
@@ -101,6 +101,17 @@ public class GameInfoFragment extends Fragment
      */
     private void addGameInfo() {
         GameInfoDialog dlg = new GameInfoDialog();
+        dlg.show(getActivity().getSupportFragmentManager(), dlg.getTag());
+    }
+
+    /**
+     * ゲーム情報を更新するダイアログを開く
+     * @param rowIndex 一覧の行インデックス
+     */
+    private void showUpdateDialog(int rowIndex) {
+        GameInfoDto dto = (GameInfoDto)this.adapter.getItem(rowIndex);
+        Log.d(TAG, dto.toString());
+        GameInfoDialog dlg = new GameInfoDialog(dto);
         dlg.show(getActivity().getSupportFragmentManager(), dlg.getTag());
     }
 

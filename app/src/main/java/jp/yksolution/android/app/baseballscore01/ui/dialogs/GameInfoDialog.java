@@ -41,7 +41,20 @@ public class GameInfoDialog extends DialogFragmentEx {
         final View dialogView = LayoutInflater.from(activity).inflate(R.layout.game_info_dialog, null);
 
         if (this.updateGameInfo != null) {
-            // TODO ここで更新するデータをビューに設定する
+            GameInfoDto dto = this.updateGameInfo;
+            ((EditText)dialogView.findViewById(R.id.gameInfoDate)).setText(DateTime.getDate(dto.getGameDate()));
+            ((EditText)dialogView.findViewById(R.id.gameInfoName)).setText(dto.getGameName());
+            ((EditText)dialogView.findViewById(R.id.gameInfoStartTime)).setText(DateTime.getTime(dto.getStartTime()));
+            ((EditText)dialogView.findViewById(R.id.gameInfoEndTime)).setText(DateTime.getTime(dto.getEndTime()));
+            ((ToggleButton)dialogView.findViewById(R.id.gameInfoTopBottom)).setChecked(dto.getTopBottom() == Const.TOP_BOTTOM.BOTTOM);
+            ((EditText)dialogView.findViewById(R.id.gameInfoPlace)).setText(dto.getPlace());
+            ((EditText)dialogView.findViewById(R.id.gameInfoCompetitionTeamName)).setText(dto.getCompetitionTeamName());
+            ((EditText)dialogView.findViewById(R.id.gameInfoUmpire1)).setText(dto.getUmpire1());
+            ((EditText)dialogView.findViewById(R.id.gameInfoUmpire2)).setText(dto.getUmpire2());
+            ((EditText)dialogView.findViewById(R.id.gameInfoUmpire3)).setText(dto.getUmpire3());
+            ((EditText)dialogView.findViewById(R.id.gameInfoUmpire4)).setText(dto.getUmpire4());
+            ((EditText)dialogView.findViewById(R.id.gameInfoUmpire5)).setText(dto.getUmpire5());
+            ((EditText)dialogView.findViewById(R.id.gameInfoUmpire6)).setText(dto.getUmpire6());
         }
         AlertDialog dlg = new AlertDialog.Builder(activity)
             .setView(dialogView)
