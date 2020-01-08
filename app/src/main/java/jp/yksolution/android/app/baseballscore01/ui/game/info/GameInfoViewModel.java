@@ -36,10 +36,10 @@ public class GameInfoViewModel extends ViewModel {
     }
 
     private void loadGameInfos() {
-        List<GameInfoDto> memberList = new ArrayList<>();
+        List<GameInfoDto> gameInfoList = new ArrayList<>();
         GameInfoDao gameInfoDao = DbHelper.getInstance().getDb().gameInfoDao();
         for (GameInfoEntity entity : gameInfoDao.getGameInfoList()) {
-            memberList.add(GameInfoDto.builder()
+            gameInfoList.add(GameInfoDto.builder()
                 .gameId(entity.getGameId())
                 .gameName(StringUtils.isEmpty(entity.getGameName()) ? "" : entity.getGameName())
                 .place(StringUtils.isEmpty(entity.getPlace()) ? "" : entity.getPlace())
@@ -60,6 +60,6 @@ public class GameInfoViewModel extends ViewModel {
                 .build());
         }
 
-        this.mGameInfos.setValue(memberList);
+        this.mGameInfos.setValue(gameInfoList);
     }
 }

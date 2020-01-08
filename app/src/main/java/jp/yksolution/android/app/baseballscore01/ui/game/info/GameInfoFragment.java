@@ -129,13 +129,13 @@ public class GameInfoFragment extends Fragment
         entity.prepreForInsert();
         String message;
         try {
-                gameInfoDao.addGameInfo(entity);
-                // 登録後の一覧を更新するため再読み込み
-                this.gameInfoViewModel.refreshGameInfos();
-                message = this.getResources().getString(R.string.MSG_DB_INS_OK);
+            gameInfoDao.addGameInfo(entity);
+            // 登録後の一覧を更新するため再読み込み
+            this.gameInfoViewModel.refreshGameInfos();
+            message = this.getResources().getString(R.string.MSG_DB_INS_OK);
         } catch (Exception ex) {
-                ex.printStackTrace();
-                message = this.getResources().getString(R.string.MSG_DB_INS_NG);
+            ex.printStackTrace();
+            message = this.getResources().getString(R.string.MSG_DB_INS_NG);
         }
         Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
     }
@@ -173,7 +173,23 @@ public class GameInfoFragment extends Fragment
      * @param gameInfoDto
      */
     public void updateGameInfo(GameInfoDto gameInfoDto) {
-        // TODO 更新処理
+        Log.d(TAG, "update info : " + gameInfoDto.toString());
+
+        // ＤＢを更新
+        GameInfoDao teamMemberDao = DbHelper.getInstance().getDb().gameInfoDao();
+        GameInfoEntity entity = this.makeGameInfoEntity(gameInfoDto);
+        entity.prepreForUpdate();
+        int count = teamMemberDao.updateGameInfo(entity);
+        // 更新結果を確認
+        String message;
+        if (count == 1) {
+            // 更新後の一覧を更新するため再読み込み
+            this.gameInfoViewModel.refreshGameInfos();
+            message = getResources().getString(R.string.MSG_DB_UPD_OK);
+        } else {
+            message = getResources().getString(R.string.MSG_DB_UPD_NG);
+        }
+        Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     /**

@@ -20,7 +20,7 @@ public class Const {
         /** 先攻. */
         public static final int TOP = 1;
         /** 後攻. */
-        public static final int BOTTOM = 1;
+        public static final int BOTTOM = 2;
     }
     /**
      * 性別.

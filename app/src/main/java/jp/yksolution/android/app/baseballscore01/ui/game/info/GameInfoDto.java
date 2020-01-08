@@ -5,6 +5,7 @@ import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 試合情報Dto.
@@ -12,6 +13,7 @@ import lombok.Setter;
  * @since 2020/01/04
  */
 @Builder
+@ToString
 public class GameInfoDto {
     /** ゲームID. */
     @Getter @Setter private long gameId;

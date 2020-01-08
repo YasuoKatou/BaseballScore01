@@ -131,7 +131,7 @@ public class GameInfoDialog extends DialogFragmentEx {
         }
         // 「開催日」
         String gameDate = ((TextView)dialog.findViewById(R.id.gameInfoDate)).getText().toString();
-        if (StringUtils.isEmpty(strVal)) {
+        if (StringUtils.isEmpty(gameDate)) {
             super.showRequiredInputMessage(R.string.dlg_view_002_game_date);
             return false;
         }
@@ -150,6 +150,7 @@ public class GameInfoDialog extends DialogFragmentEx {
         if (StringUtils.isNotEmpty(strVal)) {
             if (!DateTime.isTimeFormat(strVal)) {
                 super.showTimeFormatMessage(R.string.dlg_view_002_game_start_time);
+                return false;
             }
         }
         // 「終了時刻」
@@ -157,6 +158,7 @@ public class GameInfoDialog extends DialogFragmentEx {
         if (StringUtils.isNotEmpty(strVal)) {
             if (!DateTime.isTimeFormat(strVal)) {
                 super.showTimeFormatMessage(R.string.dlg_view_002_game_end_time);
+                return false;
             }
         }
 
@@ -235,7 +237,7 @@ public class GameInfoDialog extends DialogFragmentEx {
     }
 
     /**
-     * チームのメンバー情報を更新する.
+     * 試合情報を更新する.
      * @param dialog
      */
     private void updateGameInfo(Dialog dialog) {

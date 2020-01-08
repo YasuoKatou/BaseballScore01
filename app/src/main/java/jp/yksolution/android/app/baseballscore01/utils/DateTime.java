@@ -71,7 +71,7 @@ public class DateTime {
         try {
             int hour = Integer.parseInt(hourMinute.substring(0, pos));
             if ((hour < 0) || (hour > 23)) return false;
-            int minute = Integer.parseInt(hourMinute.substring(pos));
+            int minute = Integer.parseInt(hourMinute.substring(pos + 1));
             if ((minute < 0) || (minute > 59)) return false;
             String val = String.format("%d:%02d", hour, minute);
             return val.equals(hourMinute);
@@ -106,7 +106,7 @@ public class DateTime {
         int pos = hourMinute.indexOf(":");
         try {
             long hour = Long.parseLong(hourMinute.substring(0, pos));
-            long minute = Long.parseLong(hourMinute.substring(pos));
+            long minute = Long.parseLong(hourMinute.substring(pos + 1));
             return ((hour * 100) + minute);
         } catch (Exception ex) {
             Log.i(TAG, "Time Fromat Error at isTimeFormat (" + hourMinute + ")");
