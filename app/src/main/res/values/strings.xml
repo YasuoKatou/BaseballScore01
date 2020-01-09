@@ -95,5 +95,6 @@
     <string name="MSG_DB_DLT_OK">【%s】を削除しました.</string>
     <string name="MSG_DB_DLT_NG">【%s】の削除に失敗しました.</string>
     <string name="MSG_CONG_001">登録選手【%s】を削除します.</string>
+    <string name="MSG_CONG_002">試合情報【%s】を削除します.</string>
 
 </resources>

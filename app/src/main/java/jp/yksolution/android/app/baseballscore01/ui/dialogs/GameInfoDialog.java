@@ -68,7 +68,7 @@ public class GameInfoDialog extends DialogFragmentEx {
                 , new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // 選手情報削除
+                        // 試合情報削除
                         mNoticeDialogListener.deleteGameInfo(updateGameInfo);
                     }
                 }

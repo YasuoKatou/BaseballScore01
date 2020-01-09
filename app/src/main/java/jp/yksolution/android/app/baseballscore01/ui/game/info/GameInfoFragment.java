@@ -24,6 +24,7 @@ import jp.yksolution.android.app.baseballscore01.db.DbHelper;
 import jp.yksolution.android.app.baseballscore01.db.dao.GameInfoDao;
 import jp.yksolution.android.app.baseballscore01.db.entity.GameInfoEntity;
 import jp.yksolution.android.app.baseballscore01.ui.common.PopupMenuOperation;
+import jp.yksolution.android.app.baseballscore01.ui.dialogs.ConfirmationDialog;
 import jp.yksolution.android.app.baseballscore01.ui.dialogs.GameInfoDialog;
 
 /**
@@ -32,7 +33,8 @@ import jp.yksolution.android.app.baseballscore01.ui.dialogs.GameInfoDialog;
  * @since 2020/01/04
  */
 public class GameInfoFragment extends Fragment
-        implements PopupMenuOperation, GameInfoDialog.NoticeDialogListener {
+    implements PopupMenuOperation, GameInfoDialog.NoticeDialogListener,
+        ConfirmationDialog.NoticeDialogListener {
     private static final String TAG = GameInfoFragment.class.getSimpleName();
 
     private GameInfoViewModel gameInfoViewModel;
@@ -43,9 +45,9 @@ public class GameInfoFragment extends Fragment
                              ViewGroup container, Bundle savedInstanceState) {
         this.gameInfoViewModel =
                 ViewModelProviders.of(this).get(GameInfoViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_member, container, false);
+        View root = inflater.inflate(R.layout.fragment_game_info, container, false);
 
-        this.listView = (ListView) root.findViewById(R.id.teamMemberList);
+        this.listView = (ListView) root.findViewById(R.id.gameInfoList);
         this.listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             /**
              * ロングタップで試合を選択し、更新画面を開く
@@ -176,10 +178,10 @@ public class GameInfoFragment extends Fragment
         Log.d(TAG, "update info : " + gameInfoDto.toString());
 
         // ＤＢを更新
-        GameInfoDao teamMemberDao = DbHelper.getInstance().getDb().gameInfoDao();
+        GameInfoDao gameInfoDao = DbHelper.getInstance().getDb().gameInfoDao();
         GameInfoEntity entity = this.makeGameInfoEntity(gameInfoDto);
         entity.prepreForUpdate();
-        int count = teamMemberDao.updateGameInfo(entity);
+        int count = gameInfoDao.updateGameInfo(entity);
         // 更新結果を確認
         String message;
         if (count == 1) {
@@ -198,6 +200,34 @@ public class GameInfoFragment extends Fragment
      * @param gameInfoDto
      */
     public void deleteGameInfo(GameInfoDto gameInfoDto) {
-        // TODO 削除処理
+        String[] params = new String[]{gameInfoDto.getGameName()};
+        ConfirmationDialog dlg = new ConfirmationDialog(R.string.MSG_CONG_002, params, gameInfoDto);
+        dlg.show(getActivity().getSupportFragmentManager(), dlg.getTag());
+    }
+
+    /**
+     * 試合情報の削除処理を行う.<br/>
+     * for ConfirmationDialog.NoticeDialogListener
+     */
+    @Override
+    public void forwardProcess(Object obj) {
+        Log.d(TAG, "delete Game info : " + obj.toString());
+        GameInfoDto dto = (GameInfoDto)obj;
+
+        // ＤＢから削除
+        GameInfoDao gameInfoDao = DbHelper.getInstance().getDb().gameInfoDao();
+        int count = gameInfoDao.deleteGameInfo(dto.getGameId());
+        // 削除結果を確認
+        int messageFmtId;
+        if (count == 1) {
+            // 更新後の一覧を更新するため再読み込み
+            this.gameInfoViewModel.refreshGameInfos();
+            messageFmtId = R.string.MSG_DB_DLT_OK;
+        } else {
+            messageFmtId = R.string.MSG_DB_DLT_NG;
+        }
+        String msgFrm = this.getResources().getString(messageFmtId);
+        String message = String.format(msgFrm, dto.getGameName());
+        Toast.makeText(this.getContext(), message, Toast.LENGTH_LONG).show();
     }
 }
