@@ -33,6 +33,10 @@ public class DateTime {
         return DateFormat.format("yyyy/M/d", date).toString();
     }
 
+    public static String getMonthday(long date) {
+        return DateFormat.format("M/d", date).toString();
+    }
+
     public static String getDateTime(long dateTime) {
         return DateFormat.format("yyyy/M/d kk:mm", dateTime).toString();
     }
