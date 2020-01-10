@@ -233,6 +233,9 @@ public class TeamMemberDialog extends DialogFragmentEx {
             .pitching(Const.getPichingCodeByString(piching))
             .batting(Const.getBattingCodeByString(batting))
             .status(Const.getTeamMemberStatusByString(status))
+            .newDateTime((this.updateMember == null) ? 0 : this.updateMember.getNewDateTime())
+            .updateDateTime((this.updateMember == null) ? 0 : this.updateMember.getUpdateDateTime())
+            .versionNo((this.updateMember == null) ? 0 : this.updateMember.getVersionNo())
             .build();
     }
 

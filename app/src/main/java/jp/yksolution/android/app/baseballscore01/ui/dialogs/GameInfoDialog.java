@@ -233,6 +233,9 @@ public class GameInfoDialog extends DialogFragmentEx {
             .umpire4(StringUtils.isEmpty(umpire4) ? null : umpire4)
             .umpire5(StringUtils.isEmpty(umpire5) ? null : umpire5)
             .umpire6(StringUtils.isEmpty(umpire6) ? null : umpire6)
+            .newDateTime((this.updateGameInfo == null) ? 0 : this.updateGameInfo.getNewDateTime())
+            .updateDateTime((this.updateGameInfo == null) ? 0 : this.updateGameInfo.getUpdateDateTime())
+            .versionNo((this.updateGameInfo == null) ? 0 : this.updateGameInfo.getVersionNo())
             .build();
     }
 

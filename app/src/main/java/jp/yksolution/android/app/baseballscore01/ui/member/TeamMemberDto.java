@@ -10,12 +10,14 @@ import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * チームメンバーDto.
  * @author Y.Katou (YKSolution)
  */
 @Builder
+@ToString
 public class TeamMemberDto {
     /** メンバーID. */
     @Getter @Setter private Long memberId;
