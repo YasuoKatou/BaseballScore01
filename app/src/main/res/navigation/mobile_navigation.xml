@@ -42,6 +42,12 @@
         tools:layout="@layout/fragment_member" />
 
     <fragment
+        android:id="@+id/nav_member2"
+        android:name="jp.yksolution.android.app.baseballscore01.ui.member2.MemberFragment"
+        android:label="@string/menu_member"
+        tools:layout="@layout/fragment_member_2" />
+
+    <fragment
         android:id="@+id/nav_share"
         android:name="jp.yksolution.android.app.baseballscore01.ui.share.ShareFragment"
         android:label="@string/menu_share"
