@@ -10,17 +10,20 @@ import android.widget.TextView;
 import java.util.List;
 
 import jp.yksolution.android.app.baseballscore01.R;
+import jp.yksolution.android.app.baseballscore01.ui.common.Const;
 
 /**
  * チームメンバー一覧表示アダプター.
  * @author Y.Katou (YKSolution)
  */
 public class MemberListAdapter extends BaseAdapter {
-    private LayoutInflater mLayoutInflater = null;
+    private final Context context;
+    private final LayoutInflater mLayoutInflater;
     private List<TeamMemberDto> mTeamMemberList = null;
 
     public MemberListAdapter(Context context) {
         this.mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.context = context;
     }
 
     public void setTeamMemberList(List<TeamMemberDto> list) {
@@ -51,7 +54,7 @@ public class MemberListAdapter extends BaseAdapter {
         convertView = this.mLayoutInflater.inflate(R.layout.team_member_list_row, parent,false);
 
         TeamMemberDto entity = (TeamMemberDto)this.getItem(index);
-        ((TextView)convertView.findViewById(R.id.memberId)).setText(Long.toString(entity.getMemberId()));
+        ((TextView)convertView.findViewById(R.id.positionCategory)).setText(Const.getPositionCategoryName(this.context.getResources(),  entity.getPositionCategory()));
         ((TextView)convertView.findViewById(R.id.memberName)).setText(entity.getName());
         ((TextView)convertView.findViewById(R.id.memberAge)).setText(Integer.toString(entity.getAge()));
 

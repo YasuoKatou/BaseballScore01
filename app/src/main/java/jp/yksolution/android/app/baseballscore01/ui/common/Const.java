@@ -170,17 +170,17 @@ public class Const {
     private static final String[] POSITION_CATEGOTY_KEYWORDS = {"内", "外", "投", "捕"};
 
     /**
-     * 指定文字より右打ち／左打ちコードを取得する.
-     * @param batting
+     * 指定文字よりポジションカテゴリコードを取得する.
+     * @param positionCategory
      * @return
      */
-    public static Integer getPositionCategoryCodeByString(String batting) {
-        if (StringUtils.isEmpty(batting)) return null;
+    public static Integer getPositionCategoryCodeByString(String positionCategory) {
+        if (StringUtils.isEmpty(positionCategory)) return null;
 
-        if (batting.indexOf(POSITION_CATEGOTY_KEYWORDS[0]) != -1) return POSITION_CATEGOTY.INFIELD;
-        if (batting.indexOf(POSITION_CATEGOTY_KEYWORDS[1]) != -1) return POSITION_CATEGOTY.OUTFIELD;
-        if (batting.indexOf(POSITION_CATEGOTY_KEYWORDS[2]) != -1) return POSITION_CATEGOTY.PITCHER;
-        if (batting.indexOf(POSITION_CATEGOTY_KEYWORDS[3]) != -1) return POSITION_CATEGOTY.CATCHER;
+        if (positionCategory.indexOf(POSITION_CATEGOTY_KEYWORDS[0]) != -1) return POSITION_CATEGOTY.INFIELD;
+        if (positionCategory.indexOf(POSITION_CATEGOTY_KEYWORDS[1]) != -1) return POSITION_CATEGOTY.OUTFIELD;
+        if (positionCategory.indexOf(POSITION_CATEGOTY_KEYWORDS[2]) != -1) return POSITION_CATEGOTY.PITCHER;
+        if (positionCategory.indexOf(POSITION_CATEGOTY_KEYWORDS[3]) != -1) return POSITION_CATEGOTY.CATCHER;
 
         return null;
     }
@@ -202,13 +202,13 @@ public class Const {
         } else if (POSITION_CATEGOTY.CATCHER.equals(value)) {
             keyword = POSITION_CATEGOTY_KEYWORDS[3];
         } else {
-            Log.e("getBattingIndex", "no such code : " + ((value == null) ? "null" : value.toString()));
+            Log.e("getPositionCategoryIndex", "no such code : " + ((value == null) ? "null" : value.toString()));
             return 0;
         }
 
         String[] values = res.getStringArray(R.array.position_category_list);
         if (values == null) {
-            Log.e("getBattingIndex", "no such array");
+            Log.e("getPositionCategoryIndex", "no such array");
             return 0;
         }
         String item;
@@ -217,6 +217,31 @@ public class Const {
         }
 
         return 0;
+    }
+
+    /**
+     * ポジションカテゴリ設定値から名称を取得する.
+     * @param res リソース
+     * @param value ポジションカテゴリ設定値
+     * @return ポジションカテゴリ名称
+     */
+    public static String getPositionCategoryName(Resources res, Integer value) {
+        String[] values = res.getStringArray(R.array.position_category_list);
+        if (values == null) {
+            Log.e("getPositionCategoryname", "no such array");
+            return "";
+        }
+        if (POSITION_CATEGOTY.INFIELD.equals(value)) {
+            return values[1];   // 内野
+        } else if (POSITION_CATEGOTY.OUTFIELD.equals(value)) {
+            return values[0];   // 外野
+        } else if (POSITION_CATEGOTY.PITCHER.equals(value)) {
+            return values[2];   // 投手
+        } else if (POSITION_CATEGOTY.CATCHER.equals(value)) {
+            return values[3];   // 捕手
+        }
+        Log.e("getPositionCategoryname", "no such code : " + ((value == null)? "null" : value.toString()));
+        return "";
     }
 
     /**

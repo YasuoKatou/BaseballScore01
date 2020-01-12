@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +39,7 @@ import jp.yksolution.android.app.baseballscore01.ui.member.TeamMemberDto;
  */
 public class MemberFragment extends Fragment
     implements PopupMenuOperation, TeamMemberDialog.NoticeDialogListener,
-        ConfirmationDialog.NoticeDialogListener {
+        ConfirmationDialog.NoticeDialogListener, MemberViewAdapter.EventListener {
 
     private static final String TAG = MemberFragment.class.getSimpleName();
 
@@ -59,8 +60,9 @@ public class MemberFragment extends Fragment
         this.memberViewModel.getTeamMembers(this).observe(this, new Observer<List<TeamMemberDto>>() {
             @Override
             public void onChanged(@Nullable List<TeamMemberDto> list) {
-                MemberViewAdapter adapter = new MemberViewAdapter(list);
-                mRecyclerView.setAdapter(adapter);
+             MemberViewAdapter adapter = new MemberViewAdapter(MemberFragment.this, list, MemberFragment.this.getContext());
+             mRecyclerView.setAdapter(adapter);
+             (new ItemTouchHelper(adapter.getSwipeCallback())).attachToRecyclerView(mRecyclerView);
             }
         });
 
@@ -146,6 +148,17 @@ public class MemberFragment extends Fragment
         entity.setUpdateDateTime(teamMemberDto.getUpdateDateTime());
         entity.setVersionNo(teamMemberDto.getVersionNo());
         return entity;
+    }
+
+    /**
+     * for MemberViewAdapter.EventListener
+     * @param teamMemberDto
+     * @param position
+     */
+    public void onClicked(TeamMemberDto teamMemberDto, final int position) {
+//        Log.d(TAG, "onClicked : " + teamMemberDto.toString());
+        TeamMemberDialog dlg = new TeamMemberDialog(teamMemberDto);
+        dlg.show(getActivity().getSupportFragmentManager(), dlg.getTag());
     }
 
     /**

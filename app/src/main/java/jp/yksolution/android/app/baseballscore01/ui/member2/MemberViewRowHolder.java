@@ -5,8 +5,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Member;
+
 import jp.yksolution.android.app.baseballscore01.R;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * チームメンバー一覧表示コンポーネント.
@@ -15,14 +18,20 @@ import lombok.Getter;
  */
 public class MemberViewRowHolder extends RecyclerView.ViewHolder {
 
-    @Getter private final TextView memberId;
+    @Getter private final View itemView;
+    @Getter private final TextView positionCategory;
     @Getter private final TextView memberName;
     @Getter private final TextView memberAge;
 
+    /** メンバーID. */
+    @Getter @Setter private Long memberId;
+
     public MemberViewRowHolder(View itemView) {
         super(itemView);
-        this.memberId = (TextView) itemView.findViewById(R.id.memberId);
-        this.memberName = (TextView) itemView.findViewById(R.id.memberName);
-        this.memberAge = (TextView) itemView.findViewById(R.id.memberAge);
+
+        this.itemView = itemView;
+        this.positionCategory = (TextView)itemView.findViewById(R.id.positionCategory);
+        this.memberName = (TextView)itemView.findViewById(R.id.memberName);
+        this.memberAge = (TextView)itemView.findViewById(R.id.memberAge);
     }
 }
