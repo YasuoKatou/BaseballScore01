@@ -61,11 +61,11 @@ public class MemberListAdapter extends BaseAdapter {
         ((TextView)convertView.findViewById(R.id.memberName)).setText(entity.getName());
         ((TextView)convertView.findViewById(R.id.memberAge)).setText(Integer.toString(entity.getAge()));
 
+        name = Const.getPitchingName(this.context.getResources(), entity.getPitching());
+        ((TextView)convertView.findViewById(R.id.pitching)).setText(name);
+
         name = Const.getBattingName(this.context.getResources(), entity.getBatting());
         ((TextView)convertView.findViewById(R.id.batting)).setText(name);
-
-        name = Const.getPitchingName(this.context.getResources(), entity.getBatting());
-        ((TextView)convertView.findViewById(R.id.pitching)).setText(name);
 
         return convertView;
     }

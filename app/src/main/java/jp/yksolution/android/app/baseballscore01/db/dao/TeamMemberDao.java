@@ -26,6 +26,6 @@ public interface TeamMemberDao {
     @Query("DELETE FROM " + MyDB.TNAME_TEAM_MEMBER + " WHERE member_id = :memberId")
     int deleteTeamMember(long memberId);
 
-    @Query("SELECT * FROM " + MyDB.TNAME_TEAM_MEMBER + " ORDER BY birthday")
+    @Query("SELECT * FROM " + MyDB.TNAME_TEAM_MEMBER + " ORDER BY position_category, birthday")
     List<TeamMemberEntity> getTeamMemberList();
 }
