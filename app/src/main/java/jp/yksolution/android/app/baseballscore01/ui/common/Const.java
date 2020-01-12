@@ -93,6 +93,29 @@ public class Const {
     }
 
     /**
+     * ピッチング設定値からピッチング名を取得する.
+     * @param res リソース
+     * @param value ピッチング設定値
+     * @return ピッチング名
+     */
+    public static String getPitchingName(Resources res, Integer value) {
+        String[] values = res.getStringArray(R.array.pitching_type_list);
+        if (values == null) {
+            Log.e("getPitchingName", "no such array");
+            return "";
+        }
+        if (PITCHING.RIGHT.equals(value)) {
+            return values[0];   // 右投
+        } else if (PITCHING.LEFT.equals(value)) {
+            return values[1];   // 左投
+        } else if (PITCHING.BOTH.equals(value)) {
+            return values[2];   // 両投
+        }
+        Log.e("getPitchingName", "no such code : " + ((value == null) ? "null" : value.toString()));
+        return "";
+    }
+
+    /**
      * 右打ち／左打ち.
      */
     public static class BATTING {
@@ -154,6 +177,29 @@ public class Const {
     }
 
     /**
+     * バッティング設定値からバッティング名を取得する.
+     * @param res リソース
+     * @param value バッティング設定値
+     * @return バッティング名
+     */
+    public static String getBattingName(Resources res, Integer value) {
+        String[] values = res.getStringArray(R.array.batting_type_list);
+        if (values == null) {
+            Log.e("getBattingName", "no such array");
+            return "";
+        }
+        if (BATTING.RIGHT.equals(value)) {
+            return values[0];   // 右打
+        } else if (BATTING.LEFT.equals(value)) {
+            return values[1];   // 左打
+        } else if (BATTING.BOTH.equals(value)) {
+            return values[2];   // 両打
+        }
+        Log.e("getBattingName", "no such code : " + ((value == null) ? "null" : value.toString()));
+        return "";
+    }
+
+    /**
      * ポジションカテゴリ.
      */
     public static class POSITION_CATEGOTY {
@@ -202,13 +248,13 @@ public class Const {
         } else if (POSITION_CATEGOTY.CATCHER.equals(value)) {
             keyword = POSITION_CATEGOTY_KEYWORDS[3];
         } else {
-            Log.e("getBattingIndex", "no such code : " + ((value == null) ? "null" : value.toString()));
+            Log.e("getPositionCategoryIndex", "no such code : " + ((value == null) ? "null" : value.toString()));
             return 0;
         }
 
         String[] values = res.getStringArray(R.array.position_category_list);
         if (values == null) {
-            Log.e("getBattingIndex", "no such array");
+            Log.e("getPositionCategoryIndex", "no such array");
             return 0;
         }
         String item;
@@ -217,6 +263,32 @@ public class Const {
         }
 
         return 0;
+    }
+
+
+    /**
+     * ポジションカテゴリ設定値から名称を取得する.
+     * @param res リソース
+     * @param value ポジションカテゴリ設定値
+     * @return ポジションカテゴリ名称
+     */
+    public static String getPositionCategoryName(Resources res, Integer value) {
+        String[] values = res.getStringArray(R.array.position_category_list);
+        if (values == null) {
+            Log.e("getPositionCategoryName", "no such array");
+            return "";
+        }
+        if (POSITION_CATEGOTY.INFIELD.equals(value)) {
+            return values[1];   // 内野
+        } else if (POSITION_CATEGOTY.OUTFIELD.equals(value)) {
+            return values[0];   // 外野
+        } else if (POSITION_CATEGOTY.PITCHER.equals(value)) {
+            return values[2];   // 投手
+        } else if (POSITION_CATEGOTY.CATCHER.equals(value)) {
+            return values[3];   // 捕手
+        }
+        Log.e("getPositionCategoryName", "no such code : " + ((value == null) ? "null" : value.toString()));
+        return "";
     }
 
     /**
