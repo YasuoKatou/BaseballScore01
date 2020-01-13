@@ -20,26 +20,18 @@
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/menu_tools" />
-        <item
-            android:id="@+id/nav_game_info"
-            android:icon="@android:drawable/ic_media_play"
-            android:title="@string/menu_game_info" />
-        <item
-            android:id="@+id/nav_member"
-            android:icon="@android:drawable/star_on"
-            android:title="@string/menu_member" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="マスタデータ">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_share" />
+                android:id="@+id/nav_game_info"
+                android:icon="@android:drawable/ic_media_play"
+                android:title="@string/menu_game_info" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
+                android:id="@+id/nav_member"
+                android:icon="@android:drawable/star_on"
+                android:title="@string/menu_member" />
         </menu>
     </item>
 
