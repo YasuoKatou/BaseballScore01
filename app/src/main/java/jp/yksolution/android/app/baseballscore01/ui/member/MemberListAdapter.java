@@ -1,6 +1,7 @@
 package jp.yksolution.android.app.baseballscore01.ui.member;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,10 @@ public class MemberListAdapter extends BaseAdapter {
 
         String name = Const.getPositionCategoryName(this.context.getResources(), entity.getPositionCategory());
         ((TextView)convertView.findViewById(R.id.positionCategory)).setText(name);
+        // 背景色を守備で変更
+        GradientDrawable color = new GradientDrawable();
+        color.setColor(Const.getPositionCategoryColor(this.context, entity.getPositionCategory()));
+        convertView.setBackground(color);
 
         ((TextView)convertView.findViewById(R.id.memberName)).setText(entity.getName());
         ((TextView)convertView.findViewById(R.id.memberAge)).setText(Integer.toString(entity.getAge()));

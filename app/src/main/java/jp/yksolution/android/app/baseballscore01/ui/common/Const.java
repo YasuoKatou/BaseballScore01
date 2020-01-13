@@ -1,7 +1,10 @@
 package jp.yksolution.android.app.baseballscore01.ui.common;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
+
+import androidx.core.content.ContextCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -289,6 +292,26 @@ public class Const {
         }
         Log.e("getPositionCategoryName", "no such code : " + ((value == null) ? "null" : value.toString()));
         return "";
+    }
+
+    /**
+     * ポジションカテゴリ設定値のカラーコードを取得する.
+     * @param context
+     * @param value ポジションカテゴリ設定値
+     * @return カラーコード
+     */
+    public static int getPositionCategoryColor(Context context, Integer value) {
+        if (POSITION_CATEGOTY.INFIELD.equals(value)) {
+            return ContextCompat.getColor(context, R.color.bgColorInfield);    // 内野
+        } else if (POSITION_CATEGOTY.OUTFIELD.equals(value)) {
+            return ContextCompat.getColor(context, R.color.bgColorOutfield);   // 外野
+        } else if (POSITION_CATEGOTY.PITCHER.equals(value)) {
+            return ContextCompat.getColor(context, R.color.bgColorPitcher);    // 投手
+        } else if (POSITION_CATEGOTY.CATCHER.equals(value)) {
+            return ContextCompat.getColor(context, R.color.bgColorCatcher);    // 捕手
+        }
+        Log.e("getPositionCategoryColor", "no such code : " + ((value == null) ? "null" : value.toString()));
+        return ContextCompat.getColor(context, R.color.errorColor);
     }
 
     /**
