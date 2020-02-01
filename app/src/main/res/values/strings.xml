@@ -11,6 +11,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>
+    <string name="menu_game_starter">スタメン</string>
     <string name="menu_game_info">試合情報</string>
     <string name="menu_member">選手一覧</string>
     <string name="menu_share">Share</string>

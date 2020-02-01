@@ -30,6 +30,12 @@
         tools:layout="@layout/fragment_tools" />
 
     <fragment
+        android:id="@+id/nav_game_starter"
+        android:name="jp.yksolution.android.app.baseballscore01.ui.game.starter.GameStarterFragment"
+        android:label="@string/menu_game_starter"
+        tools:layout="@layout/fragment_game_starter" />
+
+    <fragment
         android:id="@+id/nav_game_info"
         android:name="jp.yksolution.android.app.baseballscore01.ui.game.info.GameInfoFragment"
         android:label="@string/menu_game_info"
