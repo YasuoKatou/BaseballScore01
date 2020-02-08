@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -32,9 +33,11 @@ public class GameStarterFragment extends Fragment {
             boolean isFree;
         }
 
+        Context mContext;
         private List<ListItem> positionList = new ArrayList<>();
         public GamePositionAdapter(Context context) {
             super(context, android.R.layout.simple_spinner_item);
+            this.mContext = context;
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             String[] strings = context.getResources().getStringArray(R.array.game_position_list);
             for (int index = 0; index < strings.length; ++index) {
@@ -69,13 +72,17 @@ public class GameStarterFragment extends Fragment {
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
             TextView textView = (TextView)super.getDropDownView(position, convertView, parent);
             textView.setText(this.getItem(position));
-            int visible;
+//            int visible;
+            int color;
             if (this.isEnabled(position)) {
-                visible = View.VISIBLE;
+//                visible = View.VISIBLE;
+                color = ContextCompat.getColor(this.mContext, R.color.enable);
             } else {
-                visible = View.GONE;        // TODO 詰めたい
+//                visible = View.GONE;        // TODO 詰めたい
+                color = ContextCompat.getColor(this.mContext, R.color.disable);
             }
-            textView.setVisibility(visible);
+//            textView.setVisibility(visible);
+            textView.setTextColor(color);
             return textView;
         }
 

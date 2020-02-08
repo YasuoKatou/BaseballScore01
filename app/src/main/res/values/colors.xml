@@ -9,5 +9,8 @@
     <color name="bgColorPitcher">#e0ffff</color>   <!-- lightcyan -->
     <color name="bgColorCatcher">#fffaf0</color>   <!-- floralwhite -->
 
+    <color name="enable">#000000</color>            <!-- black -->
+    <color name="disable">#a9a9a9</color>           <!-- darkgray -->
+
     <color name="errorColor">#ff0000</color>        <!-- red -->
 </resources>
