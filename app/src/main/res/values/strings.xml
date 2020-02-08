@@ -60,6 +60,8 @@
         <item>中退</item>
     </string-array>
 
+    <string name="player_name">選手名</string>
+
     <!-- 試合情報ダイアログ -->
     <string name="dlg_view_002_game_name">試合名</string>
     <string name="dlg_view_002_game_date">開催日</string>
@@ -83,6 +85,33 @@
     <string name="dlg_view_001_pitching">投</string>
     <string name="dlg_view_001_batting">打</string>
     <string name="dlg_view_001_status">団員状態</string>
+
+    <!-- ポジション -->
+    <string name="GAME_POSITION_TITLE">守備</string>
+    <string-array name="game_position_list">
+        <item>投手</item>
+        <item>捕手</item>
+        <item>１塁</item>
+        <item>２塁</item>
+        <item>３塁</item>
+        <item>ショート</item>
+        <item>レフト</item>
+        <item>センター</item>
+        <item>ライト</item>
+    </string-array>
+    <string name="GAME_POSITION_Z">控え</string>
+
+    <!-- 打順 -->
+    <string name="BATTING_SEQ">打順</string>
+    <string name="BATTING_SEQ_1">１番</string>
+    <string name="BATTING_SEQ_2">２番</string>
+    <string name="BATTING_SEQ_3">３番</string>
+    <string name="BATTING_SEQ_4">４番</string>
+    <string name="BATTING_SEQ_5">５番</string>
+    <string name="BATTING_SEQ_6">６番</string>
+    <string name="BATTING_SEQ_7">７番</string>
+    <string name="BATTING_SEQ_8">８番</string>
+    <string name="BATTING_SEQ_9">９番</string>
 
     <!-- メッセージ -->
     <string name="MSG_INP_ERR_001">入力にエラーがあります</string>
