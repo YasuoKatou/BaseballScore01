@@ -2,6 +2,7 @@ package jp.yksolution.android.app.baseballscore01.ui.game.starter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.yksolution.android.app.baseballscore01.R;
+import jp.yksolution.android.app.baseballscore01.ui.common.Const;
 
 public class GameStarterFragment extends Fragment {
     private static final String TAG = GameStarterFragment.class.getSimpleName();
@@ -29,6 +31,8 @@ public class GameStarterFragment extends Fragment {
     public class GamePositionAdapter extends ArrayAdapter<String> {
 
         private class ListItem {
+            int positionCategory;
+            String shortName;
             String value;
             boolean isFree;
         }
@@ -42,7 +46,10 @@ public class GameStarterFragment extends Fragment {
             String[] strings = context.getResources().getStringArray(R.array.game_position_list);
             for (int index = 0; index < strings.length; ++index) {
                 ListItem item = new ListItem();
-                item.value = strings[index];
+                String[] wk = strings[index].split(",");
+                item.positionCategory = Integer.valueOf(wk[0]);
+                item.shortName = wk[1];
+                item.value = wk[2];
                 item.isFree = true;
                 this.positionList.add(item);
             }
@@ -61,10 +68,29 @@ public class GameStarterFragment extends Fragment {
             return this.positionList.get(position - 1).value;
         }
 
+        private void setBackground(final TextView view, ListItem listItem) {
+            GradientDrawable color = null;
+            if (listItem != null) {
+                color = new GradientDrawable();
+                color.setColor(Const.getPositionCategoryColor(this.mContext, listItem.positionCategory));
+            }
+            view.setBackground(color);
+        }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView textView = (TextView)super.getView(position, convertView, parent);
-            textView.setText(this.getItem(position));
+            String str;
+            ListItem item;
+            if (position > 0) {
+                item = this.positionList.get(position - 1);
+                str = item.shortName;
+            } else {
+                str = "";
+                item = null;
+            }
+            this.setBackground(textView, item);
+            textView.setText(str);
             return textView;
         }
 
@@ -83,6 +109,11 @@ public class GameStarterFragment extends Fragment {
             }
 //            textView.setVisibility(visible);
             textView.setTextColor(color);
+            if (position > 0) {
+                this.setBackground(textView, this.positionList.get(position - 1));
+            } else {
+                this.setBackground(textView, null);
+            }
             return textView;
         }
 

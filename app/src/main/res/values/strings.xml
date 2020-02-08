@@ -89,15 +89,15 @@
     <!-- ポジション -->
     <string name="GAME_POSITION_TITLE">守備</string>
     <string-array name="game_position_list">
-        <item>投手</item>
-        <item>捕手</item>
-        <item>１塁</item>
-        <item>２塁</item>
-        <item>３塁</item>
-        <item>ショート</item>
-        <item>レフト</item>
-        <item>センター</item>
-        <item>ライト</item>
+        <item>300,投,投手</item>
+        <item>400,捕,捕手</item>
+        <item>100,一,１塁</item>
+        <item>100,二,２塁</item>
+        <item>100,三,３塁</item>
+        <item>200,遊,ショート</item>
+        <item>200,左,レフト</item>
+        <item>200,中,センター</item>
+        <item>200,右,ライト</item>
     </string-array>
     <string name="GAME_POSITION_Z">控え</string>
 

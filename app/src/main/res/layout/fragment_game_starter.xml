@@ -38,23 +38,23 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="15"
                 android:text="@string/BATTING_SEQ"
                 android:textAlignment="center" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="60"
                 android:text="@string/player_name"
                 android:textAlignment="center" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="25"
                 android:text="@string/GAME_POSITION_TITLE"
                 android:textAlignment="center" />
 
@@ -66,32 +66,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="15"
                 android:text="@string/BATTING_SEQ_1"
                 android:textAlignment="center" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/starter_1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_weight="60"
+                android:textAlignment="center" />
 
-                <Spinner
-                    android:id="@+id/starter_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-
-                <Spinner
-                    android:id="@+id/game_position_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/game_position_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -101,32 +94,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="15"
                 android:text="@string/BATTING_SEQ_2"
                 android:textAlignment="center" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/starter_2"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_weight="60"
+                android:textAlignment="center" />
 
-                <Spinner
-                    android:id="@+id/starter_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-
-                <Spinner
-                    android:id="@+id/game_position_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/game_position_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -136,32 +122,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="15"
                 android:text="@string/BATTING_SEQ_3"
                 android:textAlignment="center" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/starter_3"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_weight="60"
+                android:textAlignment="center" />
 
-                <Spinner
-                    android:id="@+id/starter_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-
-                <Spinner
-                    android:id="@+id/game_position_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/game_position_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -171,32 +150,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="15"
                 android:text="@string/BATTING_SEQ_4"
                 android:textAlignment="center" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/starter_4"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_weight="60"
+                android:textAlignment="center" />
 
-                <Spinner
-                    android:id="@+id/starter_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-
-                <Spinner
-                    android:id="@+id/game_position_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/game_position_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -206,32 +178,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="15"
                 android:text="@string/BATTING_SEQ_5"
                 android:textAlignment="center" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/starter_5"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_weight="60"
+                android:textAlignment="center" />
 
-                <Spinner
-                    android:id="@+id/starter_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-
-                <Spinner
-                    android:id="@+id/game_position_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/game_position_5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -241,32 +206,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="15"
                 android:text="@string/BATTING_SEQ_6"
                 android:textAlignment="center" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/starter_6"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_weight="60"
+                android:textAlignment="center" />
 
-                <Spinner
-                    android:id="@+id/starter_6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-
-                <Spinner
-                    android:id="@+id/game_position_6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/game_position_6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -276,32 +234,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="15"
                 android:text="@string/BATTING_SEQ_7"
                 android:textAlignment="center" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/starter_7"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_weight="60"
+                android:textAlignment="center" />
 
-                <Spinner
-                    android:id="@+id/starter_7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-
-                <Spinner
-                    android:id="@+id/game_position_7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/game_position_7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -311,32 +262,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="15"
                 android:text="@string/BATTING_SEQ_8"
                 android:textAlignment="center" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/starter_8"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_weight="60"
+                android:textAlignment="center" />
 
-                <Spinner
-                    android:id="@+id/starter_8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-
-                <Spinner
-                    android:id="@+id/game_position_8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/game_position_8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -346,32 +290,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="15"
                 android:text="@string/BATTING_SEQ_9"
                 android:textAlignment="center" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/starter_9"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_weight="60"
+                android:textAlignment="center" />
 
-                <Spinner
-                    android:id="@+id/starter_9"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-
-                <Spinner
-                    android:id="@+id/game_position_9"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/game_position_9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
