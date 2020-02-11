@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -325,7 +325,7 @@ public class GameStarterFragment extends Fragment {
         final Context context = this.getContext();
 
         this.memberViewModel =
-                ViewModelProviders.of(this).get(MemberViewModel.class);
+            ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(MemberViewModel.class);
         this.memberViewModel.getTeamMembers(this).observe(this, new Observer<List<TeamMemberDto>>() {
             @Override
             public void onChanged(@Nullable List<TeamMemberDto> list) {

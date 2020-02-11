@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -46,7 +46,7 @@ public class MemberFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         this.memberViewModel =
-                ViewModelProviders.of(this).get(MemberViewModel.class);
+            ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(MemberViewModel.class);
         View root = inflater.inflate(R.layout.fragment_member, container, false);
 
         this.listView = (ListView) root.findViewById(R.id.teamMemberList);
