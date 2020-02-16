@@ -1,0 +1,277 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "e478845e60452c009c76bef60fad8e0a",
+    "entities": [
+      {
+        "tableName": "team_member",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`member_id` INTEGER PRIMARY KEY AUTOINCREMENT, `name1` TEXT, `name2` TEXT, `sex` INTEGER NOT NULL, `birthday` INTEGER NOT NULL, `position_category` INTEGER, `pitching` INTEGER, `batting` INTEGER, `status` INTEGER NOT NULL, `new_date_time` INTEGER NOT NULL, `upd_date_time` INTEGER NOT NULL, `verno` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "memberId",
+            "columnName": "member_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name1",
+            "columnName": "name1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name2",
+            "columnName": "name2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sex",
+            "columnName": "sex",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "birthday",
+            "columnName": "birthday",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "positionCategory",
+            "columnName": "position_category",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pitching",
+            "columnName": "pitching",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "batting",
+            "columnName": "batting",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "newDateTime",
+            "columnName": "new_date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updateDateTime",
+            "columnName": "upd_date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionNo",
+            "columnName": "verno",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "member_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_team_member_status_birthday_name1_name2",
+            "unique": false,
+            "columnNames": [
+              "status",
+              "birthday",
+              "name1",
+              "name2"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_team_member_status_birthday_name1_name2` ON `${TABLE_NAME}` (`status`, `birthday`, `name1`, `name2`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "game_info",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`game_id` INTEGER PRIMARY KEY AUTOINCREMENT, `game_name` TEXT NOT NULL, `place` TEXT, `game_date` INTEGER NOT NULL, `start_time` INTEGER, `end_time` INTEGER, `top_bottom` INTEGER NOT NULL, `competition_team_name` TEXT, `umpire1` TEXT, `umpire2` TEXT, `umpire3` TEXT, `umpire4` TEXT, `umpire5` TEXT, `umpire6` TEXT, `new_date_time` INTEGER NOT NULL, `upd_date_time` INTEGER NOT NULL, `verno` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "gameId",
+            "columnName": "game_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gameName",
+            "columnName": "game_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "place",
+            "columnName": "place",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gameDate",
+            "columnName": "game_date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startTime",
+            "columnName": "start_time",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endTime",
+            "columnName": "end_time",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "topBottom",
+            "columnName": "top_bottom",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "competitionTeamName",
+            "columnName": "competition_team_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire1",
+            "columnName": "umpire1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire2",
+            "columnName": "umpire2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire3",
+            "columnName": "umpire3",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire4",
+            "columnName": "umpire4",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire5",
+            "columnName": "umpire5",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "umpire6",
+            "columnName": "umpire6",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "newDateTime",
+            "columnName": "new_date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updateDateTime",
+            "columnName": "upd_date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionNo",
+            "columnName": "verno",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "game_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_game_info_game_date_start_time",
+            "unique": false,
+            "columnNames": [
+              "game_date",
+              "start_time"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_game_info_game_date_start_time` ON `${TABLE_NAME}` (`game_date`, `start_time`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "game_starting_member",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`game_id` INTEGER NOT NULL, `batting_order` INTEGER NOT NULL, `member_id` INTEGER NOT NULL, `position` INTEGER, PRIMARY KEY(`game_id`, `batting_order`))",
+        "fields": [
+          {
+            "fieldPath": "gameId",
+            "columnName": "game_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "battingOrder",
+            "columnName": "batting_order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "memberId",
+            "columnName": "member_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "game_id",
+            "batting_order"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e478845e60452c009c76bef60fad8e0a')"
+    ]
+  }
+}
