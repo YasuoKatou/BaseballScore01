@@ -20,7 +20,7 @@ import jp.yksolution.android.app.baseballscore01.db.entity.GameInfoEntity;
  * @since 2020/01/04
  */
 public class GameInfoViewModel extends ViewModel {
-    private MutableLiveData<List<GameInfoDto>> mGameInfos =null;
+    private MutableLiveData<List<GameInfoDto>> mGameInfos = null;
     private Fragment mFragment = null;
     public LiveData<List<GameInfoDto>> getGameInfos(Fragment fragment) {
         this.mFragment = fragment;

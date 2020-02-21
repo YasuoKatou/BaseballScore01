@@ -1,6 +1,7 @@
 package jp.yksolution.android.app.baseballscore01.utils;
 
 import android.icu.text.SimpleDateFormat;
+import android.icu.util.GregorianCalendar;
 import android.text.format.DateFormat;
 import android.util.Log;
 
@@ -44,6 +45,15 @@ public class DateTime {
     public static String getTime(Long time) {
         if (time == null) return "";
         return String.format("%d:%02d", time / 100, time % 100);
+    }
+
+    public static long getTodayDate() {
+        Calendar dateTime = Calendar.getInstance();
+        GregorianCalendar date = new GregorianCalendar(
+                dateTime.get(Calendar.YEAR),
+                dateTime.get(Calendar.MONTH),
+                dateTime.get(Calendar.DATE));
+        return date.getTime().getTime();
     }
 
     /**

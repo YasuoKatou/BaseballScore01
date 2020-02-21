@@ -11,10 +11,14 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>
+    <string name="menu_game_starter">スタメン</string>
     <string name="menu_game_info">試合情報</string>
     <string name="menu_member">選手一覧</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
+    <string name="btn_name_game">試合</string>
+    <string name="guide_game_select">試合を選択してください.</string>
 
     <string name="opt_menu_team_member_append">選手登録</string>
     <string name="opt_menu_team_add_ob">卒団も表示</string>
@@ -59,6 +63,8 @@
         <item>中退</item>
     </string-array>
 
+    <string name="player_name">選手名</string>
+
     <!-- 試合情報ダイアログ -->
     <string name="dlg_view_002_game_name">試合名</string>
     <string name="dlg_view_002_game_date">開催日</string>
@@ -83,10 +89,38 @@
     <string name="dlg_view_001_batting">打</string>
     <string name="dlg_view_001_status">団員状態</string>
 
+    <!-- ポジション -->
+    <string name="GAME_POSITION_TITLE">守備</string>
+    <string-array name="game_position_list">
+        <item>300,投,投手</item>
+        <item>400,捕,捕手</item>
+        <item>100,一,１塁</item>
+        <item>100,二,２塁</item>
+        <item>100,三,３塁</item>
+        <item>200,遊,ショート</item>
+        <item>200,左,レフト</item>
+        <item>200,中,センター</item>
+        <item>200,右,ライト</item>
+    </string-array>
+    <string name="GAME_POSITION_Z">控え</string>
+
+    <!-- 打順 -->
+    <string name="BATTING_SEQ">打順</string>
+    <string name="BATTING_SEQ_1">１番</string>
+    <string name="BATTING_SEQ_2">２番</string>
+    <string name="BATTING_SEQ_3">３番</string>
+    <string name="BATTING_SEQ_4">４番</string>
+    <string name="BATTING_SEQ_5">５番</string>
+    <string name="BATTING_SEQ_6">６番</string>
+    <string name="BATTING_SEQ_7">７番</string>
+    <string name="BATTING_SEQ_8">８番</string>
+    <string name="BATTING_SEQ_9">９番</string>
+
     <!-- メッセージ -->
     <string name="MSG_INP_ERR_001">入力にエラーがあります</string>
     <string name="MSG_INP_ERR_002">【%s】は必須入力です</string>
     <string name="MSG_INP_ERR_003">【%s】を正しく入力して下さい</string>
+    <string name="MSG_INP_ERR_101">試合を登録して下さい</string>
 
     <string name="MSG_DB_INS_OK">登録しました.</string>
     <string name="MSG_DB_INS_NG">登録に失敗しました.</string>
