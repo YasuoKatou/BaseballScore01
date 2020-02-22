@@ -1,6 +1,8 @@
 package jp.yksolution.android.app.baseballscore01.ui.game.starter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -330,6 +333,8 @@ public class GameStarterFragment extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_game_starter, container, false);
         final Context context = this.getContext();
 
+        gameNameTextView = (TextView)root.findViewById(R.id.game_name);
+
         final Button button = (Button)root.findViewById(R.id.game_select_button);
         button.setEnabled(false);
 
@@ -349,12 +354,21 @@ public class GameStarterFragment extends Fragment {
                     }
                 }
                 if (games > 0) {
+                    // TODO 時系列に並び替える
+                    // 登録可能な試合が存在する場合、試合を選択するボタンの設定
                     button.setEnabled(true);
+                    // ボタンクリックイベントリスナーを登録
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // 試合を選択する
+                            selectGame();
+                        }
+                    });
                 } else {
                     // 試合名に試合が登録されていない旨のメッセージを表示する
                     String msg = context.getResources().getString(R.string.MSG_INP_ERR_101);
-                    TextView tv = (TextView)root.findViewById(R.id.game_name);
-                    tv.setText(msg);
+                    gameNameTextView.setText(msg);
                 }
             }
         });
@@ -389,6 +403,26 @@ public class GameStarterFragment extends Fragment {
         this.initPositionSpinner(root, R.id.game_position_9);
 
         return root;
+    }
+
+    private TextView gameNameTextView;
+
+    private void selectGame() {
+        int num = this.gameList.size();
+        CharSequence[] gameNameList = new CharSequence[num];
+        for (int index = 0 ; index < num; ++index) {
+            gameNameList[index] = this.gameList.get(index).getGameName();
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle(R.string.DLG_TITLE_GAME_SELECT)
+            .setItems(gameNameList, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d("selected game", "which : " + which);
+                    gameNameTextView.setText(gameList.get(which).getGameName());
+                }
+            });
+        builder.create().show();
     }
 
     private AdapterView.OnItemSelectedListener mOnPositionItemSelectedListener = new AdapterView.OnItemSelectedListener() {

@@ -25,6 +25,7 @@
     <string name="opt_menu_new_game">試合情報登録</string>
 
     <string name="DLG_TITLE_CONF">確認</string>
+    <string name="DLG_TITLE_GAME_SELECT">試合を選択</string>
     <string name="DLG_CONF_YES">はい</string>
     <string name="DLG_CONF_NO">いいえ</string>
     <string name="DLG_ENTRY">登録</string>
