@@ -4,6 +4,7 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
 import jp.yksolution.android.app.baseballscore01.db.dao.GameInfoDao;
+import jp.yksolution.android.app.baseballscore01.db.dao.GameStartingMemberDao;
 import jp.yksolution.android.app.baseballscore01.db.dao.TeamMemberDao;
 import jp.yksolution.android.app.baseballscore01.db.entity.GameInfoEntity;
 import jp.yksolution.android.app.baseballscore01.db.entity.GameStartingMemberEntity;
@@ -28,4 +29,6 @@ public abstract class MyDB extends RoomDatabase {
     public abstract TeamMemberDao teamMemberDao();
     /** 試合情報テーブルDao. */
     public abstract GameInfoDao gameInfoDao();
+    /** スターティングメンバ―Dao. */
+    public abstract GameStartingMemberDao gameStartingMemberDao();
 }

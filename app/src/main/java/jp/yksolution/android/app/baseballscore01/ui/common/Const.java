@@ -16,6 +16,8 @@ import jp.yksolution.android.app.baseballscore01.R;
  * @since 2019/12/28
  */
 public class Const {
+    public static final int GAME_PLAYER_COUNT = 9;
+
     /**
      * 先攻／後攻
      */

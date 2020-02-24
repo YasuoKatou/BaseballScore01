@@ -3,7 +3,6 @@ package jp.yksolution.android.app.baseballscore01.ui.game.starter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +23,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +50,7 @@ public class GameStarterFragment extends Fragment {
 
         private class ListItem {
             private int positionCategory;
+            private int positionId;
             private String shortName;
             private String value;
             private boolean isFree;
@@ -73,6 +72,7 @@ public class GameStarterFragment extends Fragment {
                 item.positionCategory = Integer.valueOf(wk[0]);
                 item.shortName = wk[1];
                 item.value = wk[2];
+                item.positionId = Integer.valueOf(wk[3]);
                 item.isFree = true;
                 this.positionList.add(item);
             }
@@ -185,6 +185,10 @@ public class GameStarterFragment extends Fragment {
             }
             if (selectedItem != null) selectedItem.isFree = true;
         }
+
+        public ListItem getPositionItem(final View view) {
+            return this.selectedItemMap.get(view);
+        }
     }
 
     /**
@@ -193,7 +197,7 @@ public class GameStarterFragment extends Fragment {
     public class PlayerAdapter extends ArrayAdapter<String> {
 
         private class ListItem {
-            private Long memberId;
+            private long memberId;
             private String value;
             private Integer positionCategory;
             private boolean isFree;
@@ -208,7 +212,7 @@ public class GameStarterFragment extends Fragment {
 
             for (TeamMemberDto member: memberList) {
                 ListItem item = new ListItem();
-                item.memberId = member.getMemberId();
+                item.memberId = member.getMemberId().longValue();
                 item.value = member.getName();
                 item.positionCategory = member.getPositionCategory();
                 item.isFree = true;
@@ -319,10 +323,22 @@ public class GameStarterFragment extends Fragment {
             }
             if (selectedItem != null) selectedItem.isFree = true;
         }
+
+        public Map<Integer, PlayerAdapter.ListItem> getStartingMember() {
+            Map<Integer, PlayerAdapter.ListItem> list = new HashMap<>();
+            for (int index = 0; index < player_view.length; ++index) {
+                PlayerAdapter.ListItem item = this.selectedItemMap.get(player_view[index]);
+                if (item != null) {
+                    list.put(Integer.valueOf(index + 1), item);
+                }
+            }
+            return list;
+        }
     }
 
     private MemberViewModel memberViewModel;
     private GameInfoViewModel gameInfoViewModel;
+    private GameStarterViewModel gameStarterViewModel;
     private final List<GameInfoDto> gameList = new ArrayList<>();
 
     private GamePositionAdapter mGamePositionAdapter;
@@ -335,13 +351,23 @@ public class GameStarterFragment extends Fragment {
 
         gameNameTextView = (TextView)root.findViewById(R.id.game_name);
 
+        // 試合の選択ボタン
         final Button button = (Button)root.findViewById(R.id.game_select_button);
         button.setEnabled(false);
+
+        // スタメン登録ボタン
+        Button saveBotton = (Button)root.findViewById(R.id.starter_set_button);
+        saveBotton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // スタメン登録
+                saveStarter();
+            }
+        });
 
         this.gameInfoViewModel =
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(GameInfoViewModel.class);
         this.gameInfoViewModel.getGameInfos(this).observe(this, new Observer<List<GameInfoDto>>() {
-//            long today =
             @Override
             public void onChanged(@Nullable List<GameInfoDto> list) {
                 long today = DateTime.getTodayDate();
@@ -373,39 +399,43 @@ public class GameStarterFragment extends Fragment {
             }
         });
 
+        this.gameStarterViewModel =
+            ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(GameStarterViewModel.class);
+
         this.memberViewModel =
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(MemberViewModel.class);
         this.memberViewModel.getTeamMembers(this).observe(this, new Observer<List<TeamMemberDto>>() {
             @Override
             public void onChanged(@Nullable List<TeamMemberDto> list) {
             mPlayerAdapter = new PlayerAdapter(context, list);
-            initPlayerSpinner(root, R.id.starter_1);
-            initPlayerSpinner(root, R.id.starter_2);
-            initPlayerSpinner(root, R.id.starter_3);
-            initPlayerSpinner(root, R.id.starter_4);
-            initPlayerSpinner(root, R.id.starter_5);
-            initPlayerSpinner(root, R.id.starter_6);
-            initPlayerSpinner(root, R.id.starter_7);
-            initPlayerSpinner(root, R.id.starter_8);
-            initPlayerSpinner(root, R.id.starter_9);
+            for (int index = 0; index < player_view_id.length; ++index) {
+                player_view[index] = initPlayerSpinner(root, player_view_id[index]);
+            }
             }
         });
 
         this.mGamePositionAdapter = new GamePositionAdapter(context);
-        this.initPositionSpinner(root, R.id.game_position_1);
-        this.initPositionSpinner(root, R.id.game_position_2);
-        this.initPositionSpinner(root, R.id.game_position_3);
-        this.initPositionSpinner(root, R.id.game_position_4);
-        this.initPositionSpinner(root, R.id.game_position_5);
-        this.initPositionSpinner(root, R.id.game_position_6);
-        this.initPositionSpinner(root, R.id.game_position_7);
-        this.initPositionSpinner(root, R.id.game_position_8);
-        this.initPositionSpinner(root, R.id.game_position_9);
+        for (int index = 0; index < game_position_view_id.length; ++index) {
+            game_position_view[index] = this.initPositionSpinner(root, game_position_view_id[index]);
+        }
 
         return root;
     }
 
+    private final int[] player_view_id = {
+        R.id.starter_1, R.id.starter_2, R.id.starter_3, R.id.starter_4, R.id.starter_5,
+        R.id.starter_6, R.id.starter_7, R.id.starter_8, R.id.starter_9
+    };
+    private final Spinner player_view[] = new Spinner[player_view_id.length];
+
+    private final int[] game_position_view_id = {
+        R.id.game_position_1, R.id.game_position_2, R.id.game_position_3, R.id.game_position_4, R.id.game_position_5,
+        R.id.game_position_6, R.id.game_position_7, R.id.game_position_8, R.id.game_position_9
+    };
+    private final Spinner game_position_view[] = new Spinner[game_position_view_id.length];
+
     private TextView gameNameTextView;
+    private Integer gameId = null;
 
     private void selectGame() {
         int num = this.gameList.size();
@@ -420,6 +450,88 @@ public class GameStarterFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     Log.d("selected game", "which : " + which);
                     gameNameTextView.setText(gameList.get(which).getGameName());
+                    gameId = Integer.valueOf(which);
+                }
+            });
+        builder.create().show();
+    }
+
+    private void saveStarter() {
+        Log.d("starter save button", "clicked");
+        // 入力項目のチェック
+        Map<Integer, PlayerAdapter.ListItem> list = this.checkItems();
+        if (list == null) return;
+
+        // スタメン保存
+        saveToDb(list);
+    }
+
+    /**
+     * スタメン登録前のチェックを行う.
+     * @return
+     */
+    private Map<Integer, PlayerAdapter.ListItem> checkItems() {
+        // 試合の確認
+        if (this.gameId == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+            builder.setMessage(R.string.MSG_INP_ERR_102)
+                .setPositiveButton(R.string.DLG_CONF_YES, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // 何もしません（試合は、利用者がボタンを操作して選択します）
+                    }
+                });
+            builder.create().show();
+            return null;
+        }
+
+        // メンバーの確認（１人以上の設定で登録可能とする）
+        Map<Integer, PlayerAdapter.ListItem> list = this.mPlayerAdapter.getStartingMember();
+        if (list.size() == 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+            builder.setMessage(R.string.MSG_INP_ERR_103)
+                .setPositiveButton(R.string.DLG_CONF_YES, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    // 何もしません（試合は、利用者がボタンを操作して選択します）
+                    }
+                });
+            builder.create().show();
+            return null;
+        }
+        return list;
+    }
+
+    /**
+     * スタメン情報を保存する.
+     * @param list
+     */
+    private void saveToDb(Map<Integer, PlayerAdapter.ListItem> list) {
+        this.gameStarterViewModel.initMemberList(this.gameId.longValue());
+        for (Map.Entry<Integer, PlayerAdapter.ListItem> rec : list.entrySet()) {
+            int battingOrder = rec.getKey().intValue();
+            Integer position = null;
+            Spinner positionView = this.game_position_view[battingOrder - 1];
+            GamePositionAdapter.ListItem positionitem = this.mGamePositionAdapter.getPositionItem(positionView);
+            if (positionitem != null) {
+                position = Integer.valueOf(positionitem.positionId);
+            }
+
+            this.gameStarterViewModel.addStartingMember(
+                GameStartingMemberDto.builder()
+                    .battingOrder(battingOrder)
+                    .memberId(rec.getValue().memberId)
+                    .position(position)
+                    .build());
+        }
+        this.gameStarterViewModel.saveToDb();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setMessage("保存しました.")
+            .setPositiveButton(R.string.DLG_CONF_YES, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                // 何もしません
                 }
             });
         builder.create().show();
@@ -455,17 +567,19 @@ public class GameStarterFragment extends Fragment {
 //        }
 //    };
 
-    private void initPositionSpinner(View root, int resource) {
+    private Spinner initPositionSpinner(View root, int resource) {
         Spinner spinner = (Spinner)root.findViewById(resource);
         spinner.setSelection(-1);
         spinner.setAdapter(this.mGamePositionAdapter);
         spinner.setOnItemSelectedListener(this.mOnPositionItemSelectedListener);
+        return spinner;
     }
 
-    private void initPlayerSpinner(View root, int resource) {
+    private Spinner initPlayerSpinner(View root, int resource) {
         Spinner spinner = (Spinner)root.findViewById(resource);
         spinner.setSelection(-1);
         spinner.setAdapter(this.mPlayerAdapter);
         spinner.setOnItemSelectedListener(this.mOnPlayerItemSelectedListener);
+        return spinner;
     }
 }
