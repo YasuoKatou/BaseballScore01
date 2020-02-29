@@ -34,6 +34,8 @@ import jp.yksolution.android.app.baseballscore01.ui.game.info.GameInfoViewModel;
 import jp.yksolution.android.app.baseballscore01.ui.member.MemberViewModel;
 import jp.yksolution.android.app.baseballscore01.ui.member.TeamMemberDto;
 import jp.yksolution.android.app.baseballscore01.utils.DateTime;
+import lombok.Builder;
+import lombok.ToString;
 
 /**
  * スタメン設定フラグメント
@@ -43,38 +45,38 @@ import jp.yksolution.android.app.baseballscore01.utils.DateTime;
 public class GameStarterFragment extends Fragment {
     private static final String TAG = GameStarterFragment.class.getSimpleName();
 
+    @Builder
+    @ToString
+    private static class PositionItem {
+        private int positionCategory;
+        private int positionId;
+        private String shortName;
+        private String value;
+        private boolean isFree;
+    }
+
     /**
      * スタメンポジションのスピナーアダプター
      */
     public class GamePositionAdapter extends ArrayAdapter<String> {
 
-        private class ListItem {
-            private int positionCategory;
-            private int positionId;
-            private String shortName;
-            private String value;
-            private boolean isFree;
-        }
-
         Context mContext;
-        private List<ListItem> positionList = new ArrayList<>();
-        public GamePositionAdapter(Context context) {
+        private List<PositionItem> positionList = new ArrayList<>();
+        public GamePositionAdapter(Context context, List<GameStarterViewModel.GamePositionItem> gamePositionList) {
             super(context, android.R.layout.simple_spinner_item);
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             this.mContext = context;
 
             // 守備のポジションを初期設定
-            String[] strings = this.mContext.getResources().getStringArray(R.array.game_position_list);
-            for (int index = 0; index < strings.length; ++index) {
-                ListItem item = new ListItem();
-                String[] wk = strings[index].split(",");
-                item.positionCategory = Integer.valueOf(wk[0]);
-                item.shortName = wk[1];
-                item.value = wk[2];
-                item.positionId = Integer.valueOf(wk[3]);
-                item.isFree = true;
-                this.positionList.add(item);
+            for (GameStarterViewModel.GamePositionItem item : gamePositionList) {
+                this.positionList.add(PositionItem.builder()
+                    .positionCategory(item.getPositionCategory())
+                    .shortName(item.getShortName())
+                    .value(item.getValue())
+                    .positionId(item.getPositionId())
+                    .isFree(true)
+                    .build());
             }
         }
 
@@ -101,7 +103,7 @@ public class GameStarterFragment extends Fragment {
             return this.positionList.get(position - 1).value;
         }
 
-        private void setBackground(final TextView view, ListItem listItem) {
+        private void setBackground(final TextView view, PositionItem listItem) {
             GradientDrawable color = null;
             if (listItem != null) {
                 color = new GradientDrawable();
@@ -121,7 +123,7 @@ public class GameStarterFragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView textView = (TextView)super.getView(position, convertView, parent);
             String str;
-            ListItem item;
+            PositionItem item;
             if (position > 0) {
                 item = this.positionList.get(position - 1);
                 str = item.shortName;
@@ -175,18 +177,18 @@ public class GameStarterFragment extends Fragment {
             return this.positionList.get(position - 1).isFree;
         }
 
-        private Map<View, ListItem> selectedItemMap = new HashMap<>();
+        private Map<View, PositionItem> selectedItemMap = new HashMap<>();
         public void selectedItem(final View view, final int position) {
-            ListItem selectedItem = this.selectedItemMap.get(view);
+            PositionItem selectedItem = this.selectedItemMap.get(view);
             if (position > 0) {
-                ListItem item = this.positionList.get(position - 1);
+                PositionItem item = this.positionList.get(position - 1);
                 item.isFree = false;
                 this.selectedItemMap.put(view, item);
             }
             if (selectedItem != null) selectedItem.isFree = true;
         }
 
-        public ListItem getPositionItem(final View view) {
+        public PositionItem getPositionItem(final View view) {
             return this.selectedItemMap.get(view);
         }
     }
@@ -401,23 +403,30 @@ public class GameStarterFragment extends Fragment {
 
         this.gameStarterViewModel =
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(GameStarterViewModel.class);
+        this.gameStarterViewModel.getGameStartterDatas(this).observe(this, new Observer<GameStarterViewModel.GameStartterDatas>() {
+            @Override
+            public void onChanged(@Nullable GameStarterViewModel.GameStartterDatas datas) {
+                // ポジション情報の展開
+                mGamePositionAdapter = new GamePositionAdapter(context, datas.getGamePositionList());
+                for (int index = 0; index < game_position_view_id.length; ++index) {
+                    game_position_view[index] = initPositionSpinner(root, game_position_view_id[index]);
+                }
+                // TODO ゲーム情報の展開
+                // TODO メンバー
+            }
+        });
 
         this.memberViewModel =
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(MemberViewModel.class);
         this.memberViewModel.getTeamMembers(this).observe(this, new Observer<List<TeamMemberDto>>() {
             @Override
             public void onChanged(@Nullable List<TeamMemberDto> list) {
-            mPlayerAdapter = new PlayerAdapter(context, list);
-            for (int index = 0; index < player_view_id.length; ++index) {
-                player_view[index] = initPlayerSpinner(root, player_view_id[index]);
-            }
+                mPlayerAdapter = new PlayerAdapter(context, list);
+                for (int index = 0; index < player_view_id.length; ++index) {
+                    player_view[index] = initPlayerSpinner(root, player_view_id[index]);
+                }
             }
         });
-
-        this.mGamePositionAdapter = new GamePositionAdapter(context);
-        for (int index = 0; index < game_position_view_id.length; ++index) {
-            game_position_view[index] = this.initPositionSpinner(root, game_position_view_id[index]);
-        }
 
         return root;
     }
@@ -512,7 +521,7 @@ public class GameStarterFragment extends Fragment {
             int battingOrder = rec.getKey().intValue();
             Integer position = null;
             Spinner positionView = this.game_position_view[battingOrder - 1];
-            GamePositionAdapter.ListItem positionitem = this.mGamePositionAdapter.getPositionItem(positionView);
+            PositionItem positionitem = this.mGamePositionAdapter.getPositionItem(positionView);
             if (positionitem != null) {
                 position = Integer.valueOf(positionitem.positionId);
             }
