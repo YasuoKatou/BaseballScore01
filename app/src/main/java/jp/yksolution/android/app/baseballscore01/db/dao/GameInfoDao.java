@@ -28,4 +28,7 @@ public interface GameInfoDao {
 
     @Query("SELECT * FROM " + MyDB.TNAME_GAME_INFO + " ORDER BY game_date desc, start_time desc")
     List<GameInfoEntity> getGameInfoList();
+
+    @Query("SELECT * FROM " + MyDB.TNAME_GAME_INFO + " WHERE game_date >= :gameDate ORDER BY game_date, start_time")
+    List<GameInfoEntity> getGameInfoListForStartMember(long gameDate);
 }

@@ -30,10 +30,8 @@ import java.util.Map;
 import jp.yksolution.android.app.baseballscore01.R;
 import jp.yksolution.android.app.baseballscore01.ui.common.Const;
 import jp.yksolution.android.app.baseballscore01.ui.game.info.GameInfoDto;
-import jp.yksolution.android.app.baseballscore01.ui.game.info.GameInfoViewModel;
 import jp.yksolution.android.app.baseballscore01.ui.member.MemberViewModel;
 import jp.yksolution.android.app.baseballscore01.ui.member.TeamMemberDto;
-import jp.yksolution.android.app.baseballscore01.utils.DateTime;
 import lombok.Builder;
 import lombok.ToString;
 
@@ -339,7 +337,6 @@ public class GameStarterFragment extends Fragment {
     }
 
     private MemberViewModel memberViewModel;
-    private GameInfoViewModel gameInfoViewModel;
     private GameStarterViewModel gameStarterViewModel;
     private final List<GameInfoDto> gameList = new ArrayList<>();
 
@@ -367,22 +364,21 @@ public class GameStarterFragment extends Fragment {
             }
         });
 
-        this.gameInfoViewModel =
-            ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(GameInfoViewModel.class);
-        this.gameInfoViewModel.getGameInfos(this).observe(this, new Observer<List<GameInfoDto>>() {
+        this.gameStarterViewModel =
+            ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(GameStarterViewModel.class);
+        this.gameStarterViewModel.getGameStartterDatas(this).observe(this, new Observer<GameStarterViewModel.GameStartterDatas>() {
             @Override
-            public void onChanged(@Nullable List<GameInfoDto> list) {
-                long today = DateTime.getTodayDate();
-                int games = 0;
-                for (GameInfoDto dto : list) {
-                    // 未来（今日以降）の試合を取り出す
-                    if (dto.getGameDate() >= today) {
-                        ++games;
-                        gameList.add(dto);
-                    }
+            public void onChanged(@Nullable GameStarterViewModel.GameStartterDatas datas) {
+                // ポジション情報の展開
+                mGamePositionAdapter = new GamePositionAdapter(context, datas.getGamePositionList());
+                for (int index = 0; index < game_position_view_id.length; ++index) {
+                    game_position_view[index] = initPositionSpinner(root, game_position_view_id[index]);
                 }
-                if (games > 0) {
-                    // TODO 時系列に並び替える
+
+                // ゲーム情報の展開
+                gameList.clear();
+                gameList.addAll(datas.getGameInfoList());
+                if (gameList.size() > 0) {
                     // 登録可能な試合が存在する場合、試合を選択するボタンの設定
                     button.setEnabled(true);
                     // ボタンクリックイベントリスナーを登録
@@ -398,30 +394,8 @@ public class GameStarterFragment extends Fragment {
                     String msg = context.getResources().getString(R.string.MSG_INP_ERR_101);
                     gameNameTextView.setText(msg);
                 }
-            }
-        });
-
-        this.gameStarterViewModel =
-            ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(GameStarterViewModel.class);
-        this.gameStarterViewModel.getGameStartterDatas(this).observe(this, new Observer<GameStarterViewModel.GameStartterDatas>() {
-            @Override
-            public void onChanged(@Nullable GameStarterViewModel.GameStartterDatas datas) {
-                // ポジション情報の展開
-                mGamePositionAdapter = new GamePositionAdapter(context, datas.getGamePositionList());
-                for (int index = 0; index < game_position_view_id.length; ++index) {
-                    game_position_view[index] = initPositionSpinner(root, game_position_view_id[index]);
-                }
-                // TODO ゲーム情報の展開
                 // TODO メンバー
-            }
-        });
-
-        this.memberViewModel =
-            ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication()).create(MemberViewModel.class);
-        this.memberViewModel.getTeamMembers(this).observe(this, new Observer<List<TeamMemberDto>>() {
-            @Override
-            public void onChanged(@Nullable List<TeamMemberDto> list) {
-                mPlayerAdapter = new PlayerAdapter(context, list);
+                mPlayerAdapter = new PlayerAdapter(context, datas.getTeamMemberList());
                 for (int index = 0; index < player_view_id.length; ++index) {
                     player_view[index] = initPlayerSpinner(root, player_view_id[index]);
                 }
