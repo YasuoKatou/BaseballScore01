@@ -94,12 +94,12 @@ public class GameStarterViewModel extends ViewModel {
     }
 
     /**
-     * 試合情報の取得
+     * 試合情報の取得.
      */
     private void getGameInfo() {
         List<GameInfoDto> list = new ArrayList<>();
-        GameInfoDao gameInfoDao = DbHelper.getInstance().getDb().gameInfoDao();
-        for (GameInfoEntity entity : gameInfoDao.getGameInfoListForStartMember(DateTime.getTodayDate())) {
+        GameInfoDao dao = DbHelper.getInstance().getDb().gameInfoDao();
+        for (GameInfoEntity entity : dao.getGameInfoListForStartMember(DateTime.getTodayDate())) {
             list.add(GameInfoDto.builder()
                 .gameId(entity.getGameId())
                 .gameName(StringUtils.isEmpty(entity.getGameName()) ? "" : entity.getGameName())
@@ -117,10 +117,13 @@ public class GameStarterViewModel extends ViewModel {
         this.mGameStartterDatas.getValue().setGameInfoList(list);
     }
 
+    /**
+     * メンバー情報の取得.
+     */
     private void getTeamMember() {
         List<TeamMemberDto> list = new ArrayList<>();
-        TeamMemberDao teamMemberDao = DbHelper.getInstance().getDb().teamMemberDao();
-        for (TeamMemberEntity entity : teamMemberDao.getTeamMemberList()) {
+        TeamMemberDao dao = DbHelper.getInstance().getDb().teamMemberDao();
+        for (TeamMemberEntity entity : dao.getTeamMemberList()) {
             list.add(TeamMemberDto.builder()
                 .memberId(entity.getMemberId())
                 .name1(entity.getName1())
@@ -134,7 +137,24 @@ public class GameStarterViewModel extends ViewModel {
         this.mGameStartterDatas.getValue().setTeamMemberList(list);
     }
 
-
+    /**
+     * スタメン情報の取得.
+     * @param gameId
+     * @return
+     */
+    public List<GameStartingMemberDto> getGameStartingMember(long gameId) {
+        List<GameStartingMemberDto> list = new ArrayList<>();
+        GameStartingMemberDao dao = DbHelper.getInstance().getDb().gameStartingMemberDao();
+        for (GameStartingMemberEntity entity : dao.getStartingList(gameId)) {
+            list.add(GameStartingMemberDto.builder()
+                .gameId(entity.getGameId())
+                .battingOrder(entity.getBattingOrder())
+                .memberId(entity.getMemberId())
+                .position(entity.getPosition())
+                .build());
+        }
+        return list;
+    }
 
     private long gameId;
     private List<GameStartingMemberDto> updateList = null;
@@ -160,7 +180,7 @@ public class GameStarterViewModel extends ViewModel {
         GameStartingMemberEntity entity = new GameStartingMemberEntity();
         for (GameStartingMemberDto dto : this.updateList) {
             entity.setGameId(dto.getGameId());
-            entity.setMemberId(dto.getGameId());
+            entity.setMemberId(dto.getMemberId());
             entity.setBattingOrder(dto.getBattingOrder());
             entity.setPosition(dto.getPosition());
 

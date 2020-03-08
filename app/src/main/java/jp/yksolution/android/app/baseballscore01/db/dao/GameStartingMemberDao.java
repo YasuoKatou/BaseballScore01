@@ -37,5 +37,5 @@ public interface GameStartingMemberDao {
      * @return スターティングメンバ―
      */
     @Query("SELECT * FROM " + MyDB.GAME_STARTING_MEMBER + " WHERE game_id = :gameId")
-    List<GameStartingMemberEntity> getStartingList(Long gameId);
+    List<GameStartingMemberEntity> getStartingList(long gameId);
 }

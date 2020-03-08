@@ -186,6 +186,19 @@ public class GameStarterFragment extends Fragment {
             if (selectedItem != null) selectedItem.isFree = true;
         }
 
+        public void clearSelectedItem() {
+            this.selectedItemMap.clear();
+        }
+
+        public int getPosition(int positionId) {
+            int num = this.positionList.size();
+            for (int index = 0; index < num; ++index) {
+                PositionItem item = this.positionList.get(index);
+                if (item.positionId == positionId) return index + 1;
+            }
+            return 0;
+        }
+
         public PositionItem getPositionItem(final View view) {
             return this.selectedItemMap.get(view);
         }
@@ -201,6 +214,14 @@ public class GameStarterFragment extends Fragment {
             private String value;
             private Integer positionCategory;
             private boolean isFree;
+        }
+
+        public int getPosition(long memberId) {
+            int num = this.playerList.size();
+            for (int index = 0; index < num; ++index) {
+                if (this.playerList.get(index).memberId == memberId) return index + 1;
+            }
+            return 0;
         }
 
         Context mContext;
@@ -324,6 +345,10 @@ public class GameStarterFragment extends Fragment {
             if (selectedItem != null) selectedItem.isFree = true;
         }
 
+        public void clearSelectedItem() {
+            this.selectedItemMap.clear();
+        }
+
         public Map<Integer, PlayerAdapter.ListItem> getStartingMember() {
             Map<Integer, PlayerAdapter.ListItem> list = new HashMap<>();
             for (int index = 0; index < player_view.length; ++index) {
@@ -418,7 +443,7 @@ public class GameStarterFragment extends Fragment {
     private final Spinner game_position_view[] = new Spinner[game_position_view_id.length];
 
     private TextView gameNameTextView;
-    private Integer gameId = null;
+    private Long gameId = null;
 
     private void selectGame() {
         int num = this.gameList.size();
@@ -431,14 +456,52 @@ public class GameStarterFragment extends Fragment {
             .setItems(gameNameList, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.d("selected game", "which : " + which);
-                    gameNameTextView.setText(gameList.get(which).getGameName());
-                    gameId = Integer.valueOf(which);
+                    loadGameStartMember(gameList.get(which));
                 }
             });
         builder.create().show();
     }
 
+    private void loadGameStartMember(GameInfoDto gameInfoDto) {
+        this.gameId = Long.valueOf(gameInfoDto.getGameId());
+//        Log.d("selected game id", this.gameId.toString());
+        gameNameTextView.setText(gameInfoDto.getGameName());
+
+        List<GameStartingMemberDto> memberList =
+            this.gameStarterViewModel.getGameStartingMember(this.gameId.longValue());
+        Log.d("starting member", memberList.toString());
+        if (memberList.size() == 0) return;
+
+        this.mGamePositionAdapter.clearSelectedItem();
+        this.mPlayerAdapter.clearSelectedItem();
+        GameStartingMemberDto[] members = new GameStartingMemberDto[Const.GAME_PLAYER_COUNT];
+        for (int index = 0; index < members.length; ++index) members[index] = null;
+        for (GameStartingMemberDto dto : memberList) members[dto.getBattingOrder() - 1] = dto;
+        for (int index = 0; index < members.length; ++index) {
+            GameStartingMemberDto member = members[index];
+            long memberId = -1;
+            int positionId = -1;
+            if (member != null) {
+                // スタメン登録あり
+                memberId = (member.getMemberId() != null) ? member.getMemberId().longValue() : -1;
+                positionId = (member.getPosition() != null) ? member.getPosition().intValue() : -1;
+            }
+            // TODO 登録内容を表示
+            Spinner spinner = this.player_view[index];
+            int listPosition = this.mPlayerAdapter.getPosition(memberId);
+            this.mPlayerAdapter.selectedItem(spinner, listPosition);
+            spinner.setSelection(listPosition);
+            // ポジション
+            spinner = this.game_position_view[index];
+            listPosition = this.mGamePositionAdapter.getPosition(positionId);
+            this.mGamePositionAdapter.selectedItem(spinner, listPosition);
+            spinner.setSelection(listPosition);
+        }
+    }
+
+    /**
+     * 登録ボタン処理
+     */
     private void saveStarter() {
         Log.d("starter save button", "clicked");
         // 入力項目のチェック
@@ -446,7 +509,7 @@ public class GameStarterFragment extends Fragment {
         if (list == null) return;
 
         // スタメン保存
-        saveToDb(list);
+        this.saveToDb(list);
     }
 
     /**
