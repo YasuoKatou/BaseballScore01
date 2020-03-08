@@ -419,7 +419,7 @@ public class GameStarterFragment extends Fragment {
                     String msg = context.getResources().getString(R.string.MSG_INP_ERR_101);
                     gameNameTextView.setText(msg);
                 }
-                // TODO メンバー
+                // メンバー
                 mPlayerAdapter = new PlayerAdapter(context, datas.getTeamMemberList());
                 for (int index = 0; index < player_view_id.length; ++index) {
                     player_view[index] = initPlayerSpinner(root, player_view_id[index]);
@@ -469,8 +469,7 @@ public class GameStarterFragment extends Fragment {
 
         List<GameStartingMemberDto> memberList =
             this.gameStarterViewModel.getGameStartingMember(this.gameId.longValue());
-        Log.d("starting member", memberList.toString());
-        if (memberList.size() == 0) return;
+//        Log.d("starting member", memberList.toString());
 
         this.mGamePositionAdapter.clearSelectedItem();
         this.mPlayerAdapter.clearSelectedItem();
@@ -486,7 +485,7 @@ public class GameStarterFragment extends Fragment {
                 memberId = (member.getMemberId() != null) ? member.getMemberId().longValue() : -1;
                 positionId = (member.getPosition() != null) ? member.getPosition().intValue() : -1;
             }
-            // TODO 登録内容を表示
+            // 登録内容を表示
             Spinner spinner = this.player_view[index];
             int listPosition = this.mPlayerAdapter.getPosition(memberId);
             this.mPlayerAdapter.selectedItem(spinner, listPosition);
