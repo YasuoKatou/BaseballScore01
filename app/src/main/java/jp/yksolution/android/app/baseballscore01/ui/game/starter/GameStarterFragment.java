@@ -188,9 +188,12 @@ public class GameStarterFragment extends Fragment {
 
         public void clearSelectedItem() {
             this.selectedItemMap.clear();
+            for (PositionItem item : this.positionList) {
+                item.isFree = true;
+            }
         }
 
-        public int getPosition(int positionId) {
+        public int getListPosition(int positionId) {
             int num = this.positionList.size();
             for (int index = 0; index < num; ++index) {
                 PositionItem item = this.positionList.get(index);
@@ -216,7 +219,7 @@ public class GameStarterFragment extends Fragment {
             private boolean isFree;
         }
 
-        public int getPosition(long memberId) {
+        public int getListPosition(long memberId) {
             int num = this.playerList.size();
             for (int index = 0; index < num; ++index) {
                 if (this.playerList.get(index).memberId == memberId) return index + 1;
@@ -347,6 +350,9 @@ public class GameStarterFragment extends Fragment {
 
         public void clearSelectedItem() {
             this.selectedItemMap.clear();
+            for (ListItem item : this.playerList) {
+                item.isFree = true;
+            }
         }
 
         public Map<Integer, PlayerAdapter.ListItem> getStartingMember() {
@@ -486,15 +492,11 @@ public class GameStarterFragment extends Fragment {
                 positionId = (member.getPosition() != null) ? member.getPosition().intValue() : -1;
             }
             // 登録内容を表示
-            Spinner spinner = this.player_view[index];
-            int listPosition = this.mPlayerAdapter.getPosition(memberId);
-            this.mPlayerAdapter.selectedItem(spinner, listPosition);
-            spinner.setSelection(listPosition);
+            this.player_view[index].setSelection(
+                this.mPlayerAdapter.getListPosition(memberId));
             // ポジション
-            spinner = this.game_position_view[index];
-            listPosition = this.mGamePositionAdapter.getPosition(positionId);
-            this.mGamePositionAdapter.selectedItem(spinner, listPosition);
-            spinner.setSelection(listPosition);
+            this.game_position_view[index].setSelection(
+                this.mGamePositionAdapter.getListPosition(positionId));
         }
     }
 
